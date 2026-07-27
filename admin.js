@@ -466,3 +466,35 @@ if (clearPitchesBtn) {
     }
   });
 }
+
+// ── MANUAL PITCH / INQUIRY ENTRY FOR ADMIN ────
+const manualPitchForm = document.getElementById('manual-pitch-form');
+if (manualPitchForm) {
+  manualPitchForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const newPitch = {
+      id: `PITCH-${Date.now().toString().slice(-4)}`,
+      date: new Date().toISOString().split('T')[0],
+      name: document.getElementById('man-name').value.trim(),
+      college: document.getElementById('man-college').value.trim(),
+      dept: document.getElementById('man-dept').value,
+      brief: document.getElementById('man-brief').value.trim()
+    };
+
+    try {
+      await fetch(`${API_BASE_URL}/api/pitches`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newPitch)
+      });
+    } catch (err) {}
+
+    const pitches = getLocalPitches();
+    pitches.unshift(newPitch);
+    saveLocalPitches(pitches);
+
+    await renderConsole();
+    manualPitchForm.reset();
+    alert('Manual pitch inquiry logged successfully!');
+  });
+}

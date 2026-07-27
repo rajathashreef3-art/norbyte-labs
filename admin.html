@@ -243,6 +243,26 @@
           <h3>RECEIVED CLIENT PROJECT PITCHES</h3>
           <button type="button" id="clear-pitches-btn" class="btn-outline btn-sm btn-danger">CLEAR PITCHES</button>
         </div>
+
+        <!-- Manual Pitch Entry Form for Admin (Phone Orders / Walk-ins) -->
+        <form id="manual-pitch-form" style="margin-bottom: 24px; background: var(--canvas); border: 2px dashed var(--text-primary); padding: 16px; border-radius: 12px;">
+          <h4 style="font-size:13px; font-weight:800; margin-bottom:10px;">MANUAL INQUIRY / PHONE ORDER ENTRY (e.g. Call to +91 62387 34386)</h4>
+          <div class="form-grid-2">
+            <input type="text" id="man-name" placeholder="Client Name" required />
+            <input type="text" id="man-college" placeholder="College / Company" required />
+          </div>
+          <div class="form-grid-2" style="margin-top:10px;">
+            <select id="man-dept" required>
+              <option value="CSE">CSE — Computer Science</option>
+              <option value="ECE">ECE — Electronics</option>
+              <option value="EEE">EEE — Electrical</option>
+              <option value="Other">Other / Industry</option>
+            </select>
+            <input type="text" id="man-brief" placeholder="Project brief / problem statement..." required />
+          </div>
+          <button type="submit" class="btn-primary btn-sm" style="margin-top:10px; width:100%;">ADD MANUAL INQUIRY ⚡</button>
+        </form>
+
         <div class="table-responsive">
           <table class="custom-table">
             <thead>

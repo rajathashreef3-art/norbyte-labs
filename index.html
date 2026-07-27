@@ -30,8 +30,7 @@
         <li><a href="#faq">FAQ</a></li>
       </ul>
       <div class="nav-actions">
-        <a href="#contact" class="nav-cta" id="nav-cta-btn">PITCH YOUR IDEA</a>
-        <a href="admin.html" class="nav-cta" style="background: var(--surface-card);" id="admin-nav-link">ADMIN CONSOLE ⚙️</a>
+        <a href="#contact" class="nav-cta" id="nav-cta-btn">PITCH YOUR IDEA ⚡</a>
         <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle dark/light theme">
           <svg class="sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
           <svg class="moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
@@ -554,98 +553,6 @@
       <p>&copy; 2026 NorByte Labs. All rights reserved.</p>
     </div>
   </footer>
-
-  <!-- ═══════════════════════ ADMIN MODAL ═══════════════════════ -->
-  <div id="admin-modal" class="modal-backdrop" hidden>
-    <div class="modal-card">
-      <button class="modal-close-btn" id="admin-close-btn" aria-label="Close admin modal">&times;</button>
-      
-      <!-- Login View -->
-      <div id="admin-login-view">
-        <h3 class="modal-title">NORBYTE ADMIN PORTAL</h3>
-        <p class="modal-sub">Enter admin security passcode to manage live project tracking &amp; client pitches.</p>
-        <form id="admin-login-form">
-          <div class="form-group" style="margin-bottom: 20px;">
-            <label for="admin-pin-input">Security Passcode (Default: 1234)</label>
-            <input type="password" id="admin-pin-input" placeholder="Enter PIN" required autocomplete="current-password" />
-          </div>
-          <button type="submit" class="btn-primary" style="width:100%;">LOG IN TO PORTAL 🔒</button>
-          <p id="admin-login-error" style="color:var(--accent-danger); font-size:13px; font-weight:700; margin-top:12px;" hidden>Invalid passcode. Try '1234'.</p>
-        </form>
-      </div>
-
-      <!-- Dashboard View -->
-      <div id="admin-dashboard-view" hidden>
-        <div class="admin-dash-header">
-          <h3>ENGINEERING CONSOLE</h3>
-          <button type="button" id="admin-logout-btn" class="btn-outline" style="padding:6px 16px; font-size:12px;">LOG OUT</button>
-        </div>
-
-        <!-- Add / Edit Record Form -->
-        <form id="admin-record-form" class="admin-form-box">
-          <h4 style="margin-bottom:14px; font-size:15px; font-weight:800;">UPDATE / CREATE TRACKING RECORD</h4>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="adm-track-id">Tracking ID</label>
-              <input type="text" id="adm-track-id" placeholder="e.g. NBY-2026-103" required style="text-transform:uppercase;" />
-            </div>
-            <div class="form-group">
-              <label for="adm-project-name">Project Title</label>
-              <input type="text" id="adm-project-name" placeholder="Project name" required />
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="adm-client">Client / College</label>
-              <input type="text" id="adm-client" placeholder="e.g. Rahul · NIT Calicut" required />
-            </div>
-            <div class="form-group">
-              <label for="adm-status">Current Status</label>
-              <select id="adm-status" required>
-                <option value="Concept Locked">Concept Locked</option>
-                <option value="Hardware Assembly">Hardware Assembly</option>
-                <option value="In Progress" selected>In Progress</option>
-                <option value="Testing &amp; QA">Testing &amp; QA</option>
-                <option value="Completed &amp; Shipped">Completed &amp; Shipped</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="adm-progress">Progress % (0 - 100)</label>
-              <input type="number" id="adm-progress" min="0" max="100" value="50" required />
-            </div>
-            <div class="form-group">
-              <label for="adm-notes">Latest Engineer Note</label>
-              <input type="text" id="adm-notes" placeholder="Update message for client..." required />
-            </div>
-          </div>
-          <button type="submit" class="btn-primary" style="margin-top:14px; width:100%;">SAVE / UPDATE RECORD ⚡</button>
-        </form>
-
-        <!-- Existing Records Table -->
-        <div class="admin-table-container">
-          <h4 style="margin-bottom:12px; font-size:15px; font-weight:800;">ACTIVE PROJECT RECORDS</h4>
-          <table class="admin-table">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Project Title</th>
-                <th>Client</th>
-                <th>Status</th>
-                <th>Progress</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody id="admin-records-tbody">
-              <!-- Dynamically populated -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-    </div>
-  </div>
 
   <script src="script.js"></script>
 </body>
