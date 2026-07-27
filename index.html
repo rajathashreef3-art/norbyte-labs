@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nexora Labs — Custom Engineering Projects for CSE, ECE &amp; EEE</title>
+  <meta name="description" content="Nexora Labs builds custom mini, major, and industrial engineering projects for CSE, ECE, and EEE departments. Based in Kozhikode, serving students and innovators across India." />
+  <meta property="og:title" content="Nexora Labs — Custom Engineering Projects" />
+  <meta property="og:description" content="From custom firmware to MERN dashboards — built from scratch, exactly how you need it." />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ═══════════════════════ NAV ═══════════════════════ -->
+  <nav id="top-nav" role="navigation" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="#hero" class="nav-logo" aria-label="Nexora Labs home">
+        <!-- SVG Logo Mark -->
+        <svg class="nav-logo-img" width="32" height="32" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="50" r="45" fill="#ffd215" stroke="#0f172a" stroke-width="7"/>
+          <path d="M50 15v10M50 75v10M15 50h10M75 50h10M25 25l7 7M68 68l7 7M25 75l7-7M68 32l7-7" stroke="#0f172a" stroke-width="7" stroke-linecap="round"/>
+          <path d="M38 65V35l24 30V35" stroke="#0f172a" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="nav-logo-text">NEXORA LABS</span>
+      </a>
+      <ul class="nav-links" role="list">
+        <li><a href="#how-we-work">How We Work</a></li>
+        <li><a href="#departments">Departments</a></li>
+        <li><a href="#lifecycle">A–Z Pipeline</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="#contact" class="nav-cta" id="nav-cta-btn">PITCH YOUR IDEA</a>
+        <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle dark/light theme">
+          <svg class="sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+          <svg class="moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+        </button>
+      </div>
+      <button class="hamburger" id="hamburger-btn" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+      <ul role="list">
+        <li><a href="#how-we-work">How We Work</a></li>
+        <li><a href="#departments">Departments</a></li>
+        <li><a href="#lifecycle">A–Z Pipeline</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#contact" class="mobile-cta">PITCH YOUR IDEA</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════ HERO ═══════════════════════ -->
+  <section id="hero" class="hero-section" aria-labelledby="hero-headline">
+    <div class="hero-bg-img" aria-hidden="true"></div>
+    <div class="hero-overlay" aria-hidden="true"></div>
+    <div class="hero-inner">
+      <div class="hero-content" id="hero-content-anim">
+        <p class="hero-location" aria-label="Location badge">
+          <span class="dot-pulse" aria-hidden="true"></span>
+          KOZHIKODE · SERVING PAN-INDIA
+        </p>
+        <h1 id="hero-headline">
+          TURNING RAW HARDWARE<br/>
+          SIGNALS INTO DEPENDABLE<br/>
+          <span class="hero-accent">ENGINEERING REALITIES.</span>
+        </h1>
+        <p class="hero-sub">
+          Tailored Mini, Major &amp; Industrial Projects for CSE, ECE, and EEE. Built from scratch — exactly how you need it.
+        </p>
+        <div class="hero-ctas">
+          <a href="#contact" class="btn-primary" id="hero-primary-cta">CONNECT &amp; PITCH YOUR IDEA ⚡</a>
+          <a href="#departments" class="btn-outline" id="hero-secondary-cta">BROWSE TECH STACK ➔</a>
+        </div>
+      </div>
+
+      <!-- Centered Custom Hero Illustration -->
+      <div class="hero-illustration-container reveal-item">
+        <svg viewBox="0 0 500 350" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" class="comic-svg">
+          <defs>
+            <pattern id="hero-grid" width="20" height="20" patternUnits="userSpaceOnUse">
+              <path d="M 20 0 L 0 0 0 20" fill="none" stroke="var(--hairline)" stroke-width="1"/>
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#hero-grid)" rx="12" />
+          
+          <!-- Circuit links in comic format -->
+          <path d="M 100 180 h 120 v -40 h 60 M 100 180 v 80 h 180" fill="none" stroke="var(--accent)" stroke-dasharray="8,6" stroke-width="4"/>
+          <circle cx="100" cy="180" r="8" fill="#ffd215" stroke="#0f172a" stroke-width="3"/>
+          <circle cx="280" cy="140" r="8" fill="#ff4b91" stroke="#0f172a" stroke-width="3"/>
+          
+          <!-- Cute Speech Bubble -->
+          <g transform="translate(30, 35)">
+            <path d="M 10 30 h 110 a 10 10 0 0 0 10 -10 v -10 a 10 10 0 0 0 -10 -10 h -110 a 10 10 0 0 0 -10 10 v 10 a 10 10 0 0 0 10 30 Z" fill="#ef4444" stroke="#0f172a" stroke-width="3.5"/>
+            <path d="M 40 30 l 8 10 l 8 -10" fill="#ef4444" stroke="#0f172a" stroke-width="3.5" stroke-linejoin="round"/>
+            <text x="16" y="20" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="bold" fill="#ffffff">Firmware.cpp</text>
+          </g>
+
+          <!-- Computer Terminal Window -->
+          <rect x="50" y="110" width="160" height="120" rx="8" fill="#ffffff" stroke="#0f172a" stroke-width="4" />
+          <rect x="50" y="110" width="160" height="24" fill="#0f172a" rx="4" />
+          <circle cx="64" cy="122" r="4" fill="#ef4444"/>
+          <circle cx="76" cy="122" r="4" fill="#ffd215"/>
+          <circle cx="88" cy="122" r="4" fill="#10b981"/>
+          <!-- Code traces -->
+          <path d="M 68 152 h 50 M 68 168 h 90 M 68 184 h 65 M 68 200 h 110" stroke="#0f172a" stroke-width="4.5" stroke-linecap="round"/>
+
+          <!-- Microcontroller block with cute face -->
+          <rect x="280" y="90" width="170" height="140" rx="12" fill="#00d2c4" stroke="#0f172a" stroke-width="4.5" />
+          <circle cx="325" cy="140" r="9" fill="#ffffff" stroke="#0f172a" stroke-width="3"/>
+          <circle cx="395" cy="140" r="9" fill="#ffffff" stroke="#0f172a" stroke-width="3"/>
+          <circle cx="327" cy="140" r="3.5" fill="#000"/>
+          <circle cx="397" cy="140" r="3.5" fill="#000"/>
+          <path d="M345 170 Q360 182 375 170" fill="none" stroke="#0f172a" stroke-width="4" stroke-linecap="round"/>
+          
+          <!-- Antenna & waves -->
+          <path d="M365 90 v -30" stroke="#0f172a" stroke-width="5" stroke-linecap="round"/>
+          <circle cx="365" cy="55" r="9" fill="#ef4444" stroke="#0f172a" stroke-width="3"/>
+          <path d="M350 42 a 20 20 0 0 1 30 0" fill="none" stroke="#0f172a" stroke-width="2.5" stroke-linecap="round"/>
+
+          <!-- Gears -->
+          <g transform="translate(230, 245) scale(0.7)">
+            <circle cx="30" cy="30" r="18" fill="#ffd215" stroke="#0f172a" stroke-width="4"/>
+            <path d="M30 4v6M30 50v6M4 30h6M50 30h6" stroke="#0f172a" stroke-width="4" stroke-linecap="round"/>
+          </g>
+        </svg>
+      </div>
+
+      <div class="hero-badge-row" aria-label="Trust indicators">
+        <div class="hero-badge">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          100% CUSTOM BUILDS
+        </div>
+        <div class="hero-badge">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 6v6l4 2m6-2a10 10 0 11-20 0 10 10 0 0120 0z" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          A-TO-Z PIPELINE
+        </div>
+        <div class="hero-badge">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          PAN-INDIA SHIPPING
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ HOW WE WORK ═══════════════════════ -->
+  <section id="how-we-work" class="section how-section tech-grid-bg" aria-labelledby="how-headline">
+    <div class="container">
+      <div class="section-header-left">
+        <h2 id="how-headline">SIMPLE.<br/>TRANSPARENT.<br/>FLEXIBLE.</h2>
+        <p class="section-body">We don't sell rigid project boxes. Engineering is dynamic, and so is our process. We build what you actually need after understanding your goals, department constraints, and budget.</p>
+      </div>
+      <div class="steps-grid">
+        <div class="step-card reveal-item" id="step-1">
+          <div class="step-number">01</div>
+          <div class="step-stripe" aria-hidden="true"></div>
+          <h3>CONNECT</h3>
+          <p>Drop your rough idea, problem statement, or the specific IEEE paper you want implemented. Napkin sketch or structured brief — our engineering team reviews it all.</p>
+        </div>
+        <div class="step-card reveal-item" id="step-2">
+          <div class="step-number">02</div>
+          <div class="step-stripe" aria-hidden="true"></div>
+          <h3>NEGOTIATE &amp; SCOPE</h3>
+          <p>We map out features, choose microcontrollers, lock down dashboard specs, and finalize a flexible budget that actually works for you.</p>
+        </div>
+        <div class="step-card reveal-item" id="step-3">
+          <div class="step-number">03</div>
+          <div class="step-stripe" aria-hidden="true"></div>
+          <h3>CREATE</h3>
+          <p>Hardware debugging, firmware programming, software development, documentation, and rigorous final testing — the entire engineering pipeline, handled.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ COMIC PHOTO BAND ═══════════════════════ -->
+  <div class="photo-band tech-grid-bg" aria-hidden="true">
+    <div class="photo-band-comic-bubble">
+      <span>"HARDWARE-FIRST. ALWAYS. ⚡"</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════ DEPARTMENTS ═══════════════════════ -->
+  <section id="departments" class="section dept-section" aria-labelledby="dept-headline">
+    <div class="container">
+      <h2 id="dept-headline">SPECIALIZED ENGINEERING<br/>ACROSS CORE DOMAINS</h2>
+      <div class="dept-tabs" role="tablist" aria-label="Department selector">
+        <button class="dept-tab active" role="tab" aria-selected="true" aria-controls="panel-cse" id="tab-cse">CSE</button>
+        <button class="dept-tab" role="tab" aria-selected="false" aria-controls="panel-ece" id="tab-ece">ECE</button>
+        <button class="dept-tab" role="tab" aria-selected="false" aria-controls="panel-eee" id="tab-eee">EEE</button>
+      </div>
+
+      <!-- CSE Panel -->
+      <div class="dept-panel active" id="panel-cse" role="tabpanel" aria-labelledby="tab-cse">
+        <div class="dept-panel-inner">
+          <div class="dept-info">
+            <p class="dept-tag">COMPUTER SCIENCE &amp; ENGINEERING</p>
+            <p class="dept-desc">Data-heavy, networked, and intelligence-driven software ecosystems.</p>
+            <p class="dept-body">Full-stack MERN telemetry dashboards, real-time IoT data pipelines, cloud infrastructure hosting, and Python-based Edge AI automation.</p>
+            <div class="stack-pills">
+              <span>MongoDB</span><span>Express.js</span><span>React</span><span>Node.js</span><span>Python</span><span>OpenCV</span><span>MQTT</span><span>Raspberry Pi</span>
+            </div>
+          </div>
+          <div class="dept-visual">
+            <!-- CSE SVG Illustration -->
+            <svg viewBox="0 0 400 300" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <pattern id="card-grid-cse" width="16" height="16" patternUnits="userSpaceOnUse">
+                  <circle cx="8" cy="8" r="1" fill="var(--hairline-mid)"/>
+                </pattern>
+              </defs>
+              <rect width="100%" height="100%" fill="url(#card-grid-cse)" />
+              <rect x="40" y="30" width="320" height="200" rx="8" fill="#ffffff" stroke="#0f172a" stroke-width="4.5"/>
+              <rect x="40" y="30" width="320" height="30" fill="#2563eb" stroke="#0f172a" stroke-width="4.5"/>
+              <circle cx="58" cy="45" r="5" fill="#ef4444" stroke="#0f172a" stroke-width="1.5"/>
+              <circle cx="72" cy="45" r="5" fill="#ffd215" stroke="#0f172a" stroke-width="1.5"/>
+              <circle cx="86" cy="45" r="5" fill="#10b981" stroke="#0f172a" stroke-width="1.5"/>
+              
+              <!-- Dashboard graphs -->
+              <rect x="70" y="80" width="30" height="120" rx="3" fill="#ffd215" stroke="#0f172a" stroke-width="3.5"/>
+              <rect x="115" y="110" width="30" height="90" rx="3" fill="#ff4b91" stroke="#0f172a" stroke-width="3.5"/>
+              <rect x="160" y="65" width="30" height="135" rx="3" fill="#00d2c4" stroke="#0f172a" stroke-width="3.5"/>
+              
+              <circle cx="280" cy="120" r="35" fill="#ffffff" stroke="#0f172a" stroke-width="4"/>
+              <path d="M 280 85 A 35 35 0 0 1 315 120" fill="none" stroke="#2563eb" stroke-width="8" stroke-linecap="round"/>
+              
+              <g transform="translate(250, 165) scale(0.8)">
+                <rect x="10" y="5" width="50" height="10" fill="#ffffff" stroke="#0f172a" stroke-width="3"/>
+                <rect x="10" y="15" width="50" height="10" fill="#ffffff" stroke="#0f172a" stroke-width="3"/>
+                <ellipse cx="35" cy="5" rx="25" ry="5" fill="#ffffff" stroke="#0f172a" stroke-width="3"/>
+                <ellipse cx="35" cy="15" rx="25" ry="5" fill="#ffffff" stroke="#0f172a" stroke-width="3"/>
+                <ellipse cx="35" cy="25" rx="25" ry="5" fill="#ffffff" stroke="#0f172a" stroke-width="3"/>
+              </g>
+              
+              <path d="M160 230 l-10 40 h100 l-10 -40 z" fill="#ffffff" stroke="#0f172a" stroke-width="4.5" stroke-linejoin="round"/>
+              <rect x="120" y="270" width="160" height="10" rx="3" fill="#ffffff" stroke="#0f172a" stroke-width="4.5"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- ECE Panel -->
+      <div class="dept-panel" id="panel-ece" role="tabpanel" aria-labelledby="tab-ece" hidden>
+        <div class="dept-panel-inner">
+          <div class="dept-info">
+            <p class="dept-tag">ELECTRONICS &amp; COMMUNICATION</p>
+            <p class="dept-desc">Hardware-first systems focused on signal processing and reliable communication paths.</p>
+            <p class="dept-body">Embedded telemetry systems, directional RF beamforming configurations, secure LoRa mesh tracking setups, and custom multi-sensor nodes.</p>
+            <div class="stack-pills">
+              <span>ESP32</span><span>ESP8266</span><span>STM32</span><span>PIC</span><span>MPLAB X</span><span>STM32CubeIDE</span><span>WebSockets</span><span>Bluetooth</span>
+            </div>
+          </div>
+          <div class="dept-visual">
+            <!-- ECE SVG Illustration -->
+            <svg viewBox="0 0 400 300" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+              <rect width="100%" height="100%" fill="url(#card-grid-cse)" />
+              <rect x="60" y="50" width="280" height="190" rx="12" fill="#00d2c4" stroke="#0f172a" stroke-width="4.5"/>
+              <rect x="130" y="95" width="140" height="100" rx="6" fill="#0f172a" stroke="#0f172a" stroke-width="4"/>
+              
+              <!-- Cute face on microcontroller -->
+              <circle cx="170" cy="135" r="7" fill="#ffffff"/>
+              <circle cx="230" cy="135" r="7" fill="#ffffff"/>
+              <circle cx="172" cy="135" r="2.5" fill="#000"/>
+              <circle cx="232" cy="135" r="2.5" fill="#000"/>
+              <path d="M 190 160 Q 200 170 210 160" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+              
+              <!-- Pin leads -->
+              <path d="M130 110 h-18 M130 130 h-18 M130 150 h-18 M130 170 h-18 M270 110 h 18 M270 130 h 18 M270 150 h 18 M270 170 h 18" stroke="#ffd215" stroke-width="5.5" stroke-linecap="round"/>
+              
+              <!-- Waves -->
+              <path d="M80 90 Q 65 105 80 120 M88 80 Q 55 105 88 130" fill="none" stroke="#ff4b91" stroke-width="3.5" stroke-linecap="round"/>
+              
+              <circle cx="100" cy="190" r="14" fill="#ffd215" stroke="#0f172a" stroke-width="3.5"/>
+              <circle cx="300" cy="85" r="9" fill="#ef4444" stroke="#0f172a" stroke-width="3"/>
+              <circle cx="300" cy="115" r="9" fill="#10b981" stroke="#0f172a" stroke-width="3"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- EEE Panel -->
+      <div class="dept-panel" id="panel-eee" role="tabpanel" aria-labelledby="tab-eee" hidden>
+        <div class="dept-panel-inner">
+          <div class="dept-info">
+            <p class="dept-tag">ELECTRICAL &amp; ELECTRONICS</p>
+            <p class="dept-desc">Smart power management, telemetry logic, and rugged machine monitoring.</p>
+            <p class="dept-body">Smart grid telemetry, predictive machine logging arrays, automated industrial control loops, and custom multi-sensor data fusion platforms.</p>
+            <div class="stack-pills">
+              <span>Industrial Sensors</span><span>PIC MCU</span><span>ESP32 Nodes</span><span>Protective Firmware</span><span>Telemetry Dashboards</span>
+            </div>
+          </div>
+          <div class="dept-visual">
+            <!-- EEE SVG Illustration -->
+            <svg viewBox="0 0 400 300" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+              <rect width="100%" height="100%" fill="url(#card-grid-cse)" />
+              <path d="M 200 50 A 60 60 0 0 1 250 145 C 250 172 230 182 230 198 h -60 C 170 182 150 172 150 145 A 60 60 0 0 1 200 50 Z" fill="#ffd215" stroke="#0f172a" stroke-width="5" stroke-linejoin="round"/>
+              <path d="M 170 198 h 60 v 14 h -60 Z M 176 212 h 48 v 10 h -48 Z M 184 222 h 32 v 6 h -32 Z" fill="#ffffff" stroke="#0f172a" stroke-width="4" stroke-linejoin="round"/>
+              <path d="M200 25 v-15 M200 248 v 15 M70 145 h-15 M330 145 h 15 M100 65 l-12-12 M300 65 l 12-12 M100 225 l-12 12 M300 225 l 12-12" stroke="#0f172a" stroke-width="4.5" stroke-linecap="round"/>
+              <path d="M 194 85 l 15 25 h -15 l 10 25" fill="none" stroke="#0f172a" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ LIFECYCLE / A-TO-Z ═══════════════════════ -->
+  <section id="lifecycle" class="section lifecycle-section tech-grid-bg" aria-labelledby="lifecycle-headline">
+    <div class="container">
+      <h2 id="lifecycle-headline">WE DON'T JUST HAND OVER<br/>A BOARD.</h2>
+      <p class="section-body">We deliver the whole ecosystem — from concept to viva prep.</p>
+      <div class="lifecycle-list">
+        <div class="lifecycle-item reveal-item" id="lc-01">
+          <span class="lc-num">01</span>
+          <div class="lc-content">
+            <h3>CONCEPTUAL ARCHITECTURE</h3>
+            <p>Moving your initial concept past basic internet tutorials into a robust technical layout aligned with modern evaluation standards.</p>
+          </div>
+        </div>
+        <div class="lifecycle-item reveal-item" id="lc-02">
+          <span class="lc-num">02</span>
+          <div class="lc-content">
+            <h3>HARDWARE-FIRST DEBUGGING</h3>
+            <p>Isolating signal noise and communication bottlenecks on breadboards and custom circuits long before any final firmware runs.</p>
+          </div>
+        </div>
+        <div class="lifecycle-item reveal-item" id="lc-03">
+          <span class="lc-num">03</span>
+          <div class="lc-content">
+            <h3>DASHBOARD &amp; LOGIC LAYERING</h3>
+            <p>Mapping complex hardware variables directly to clear, responsive user dashboards that anyone can read at a glance.</p>
+          </div>
+        </div>
+        <div class="lifecycle-item reveal-item" id="lc-04">
+          <span class="lc-num">04</span>
+          <div class="lc-content">
+            <h3>COMPLETE TECHNICAL DOCUMENTATION</h3>
+            <p>Comprehensive project reports, clear circuit schematics, fully commented code repositories, and structural breakdown charts.</p>
+          </div>
+        </div>
+        <div class="lifecycle-item reveal-item" id="lc-05">
+          <span class="lc-num">05</span>
+          <div class="lc-content">
+            <h3>DELIVERY &amp; VIVA PREP</h3>
+            <p>100% operational system delivered. We guide you through system logic, block diagram paths, and code blocks so you ace your viva with total confidence.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ PHILOSOPHY ═══════════════════════ -->
+  <section class="section philosophy-section" aria-labelledby="philosophy-headline">
+    <div class="philosophy-bg" aria-hidden="true"></div>
+    <div class="container philosophy-inner">
+      <h2 id="philosophy-headline">THE NEXORA<br/>ENGINEERING STYLE</h2>
+      <div class="philosophy-grid">
+        <div class="philosophy-card reveal-item" id="phil-1">
+          <div class="phil-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+          </div>
+          <h3>WE MEASURE, WE DON'T GUESS</h3>
+          <p>Hardware-first approach guarantees devices perform reliably under real strain instead of glitching during critical demos.</p>
+        </div>
+        <div class="philosophy-card reveal-item" id="phil-2">
+          <div class="phil-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><path d="M8 21h8M12 17v4"/></svg>
+          </div>
+          <h3>CLARITY OVER COMPLEXITY</h3>
+          <p>Telemetry analytics don't look cryptic here. We turn raw sensor streams into intuitive, real-time UI graphics anyone can read.</p>
+        </div>
+        <div class="philosophy-card reveal-item" id="phil-3">
+          <div class="phil-icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0M1.34 8.34a17 17 0 0 1 21.3 0M8.66 16.68a5 5 0 0 1 6.68 0M12 20h.01"/></svg>
+          </div>
+          <h3>REDUNDANT PATHS</h3>
+          <p>Stable MQTT/LoRa fallback channels ensure your data safely travels from sensor node to cloud database without loss.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ FAQ ═══════════════════════ -->
+  <section id="faq" class="section faq-section" aria-labelledby="faq-headline">
+    <div class="container faq-inner">
+      <h2 id="faq-headline">FREQUENTLY ASKED</h2>
+      <div class="faq-list" role="list">
+        <div class="faq-item" role="listitem">
+          <button class="faq-q" aria-expanded="false" id="faq-q1" aria-controls="faq-a1">
+            Can you build a project based on my own custom idea?
+            <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="faq-a" id="faq-a1" role="region" aria-labelledby="faq-q1" hidden>
+            <p>Absolutely. Custom engineering is our specialty. Reach out, let us look at your problem statement, and we will build it exactly to your requirements — no pre-packaged templates.</p>
+          </div>
+        </div>
+        <div class="faq-item" role="listitem">
+          <button class="faq-q" aria-expanded="false" id="faq-q2" aria-controls="faq-a2">
+            I live outside Kerala. Can I still work with Nexora Labs?
+            <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="faq-a" id="faq-a2" role="region" aria-labelledby="faq-q2" hidden>
+            <p>Yes. While our lab is proudly based in Kozhikode, we build and securely ship operational hardware projects to students and clients all over India, paired with remote setup support.</p>
+          </div>
+        </div>
+        <div class="faq-item" role="listitem">
+          <button class="faq-q" aria-expanded="false" id="faq-q3" aria-controls="faq-a3">
+            Do you help with project reports and documentation?
+            <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="faq-a" id="faq-a3" role="region" aria-labelledby="faq-q3" hidden>
+            <p>Yes, entirely. Our A-to-Z pipeline covers structural schematics, clean commented code bases, and comprehensive project documentation ready for submission and evaluation.</p>
+          </div>
+        </div>
+        <div class="faq-item" role="listitem">
+          <button class="faq-q" aria-expanded="false" id="faq-q4" aria-controls="faq-a4">
+            How do we finalize the budget and scope?
+            <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="faq-a" id="faq-a4" role="region" aria-labelledby="faq-q4" hidden>
+            <p>After you connect with your idea, we jump on a quick call or chat to map out features, choose target components, and negotiate a scope and budget that works for your situation. No hidden fees, no rigid packages.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ CONTACT / CTA ═══════════════════════ -->
+  <section id="contact" class="section contact-section" aria-labelledby="contact-headline">
+    <div class="container contact-inner">
+      <div class="contact-header">
+        <h2 id="contact-headline">READY TO TURN YOUR CONCEPT INTO REAL ENGINEERING?</h2>
+        <p>Let's connect, discuss your requirements, and negotiate a scope that fits perfectly.</p>
+      </div>
+      <form class="contact-form" id="project-pitch-form" novalidate aria-label="Project pitch submission form">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="field-name">Your Name</label>
+            <input type="text" id="field-name" name="name" placeholder="Full name" autocomplete="name" required />
+          </div>
+          <div class="form-group">
+            <label for="field-college">College / Company</label>
+            <input type="text" id="field-college" name="college" placeholder="Institution or company" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="field-dept">Department</label>
+          <select id="field-dept" name="department" required>
+            <option value="" disabled selected>Select department</option>
+            <option value="CSE">CSE — Computer Science &amp; Engineering</option>
+            <option value="ECE">ECE — Electronics &amp; Communication</option>
+            <option value="EEE">EEE — Electrical &amp; Electronics</option>
+            <option value="Other">Other / Industry</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="field-brief">Project Brief / Idea</label>
+          <textarea id="field-brief" name="brief" rows="5" placeholder="Describe your project idea, problem statement, or the IEEE paper you want implemented..." required></textarea>
+        </div>
+        <button type="submit" class="btn-primary form-submit" id="submit-pitch-btn">SUBMIT PROJECT PITCH ⚡</button>
+        <div class="form-success" id="form-success-msg" aria-live="polite" hidden>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+          Your pitch has been received. We'll reach out within 24 hours.
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ FOOTER ═══════════════════════ -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-stripe" aria-hidden="true"></div>
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <!-- SVG Logo Mark inside Footer -->
+        <svg class="footer-logo" width="40" height="40" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="50" r="45" fill="#ffd215" stroke="#0f172a" stroke-width="7"/>
+          <path d="M50 15v10M50 75v10M15 50h10M75 50h10M25 25l7 7M68 68l7 7M25 75l7-7M68 32l7-7" stroke="#0f172a" stroke-width="7" stroke-linecap="round"/>
+          <path d="M38 65V35l24 30V35" stroke="#0f172a" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <p class="footer-tagline">Engineered with grit in Kozhikode, Kerala.</p>
+      </div>
+      <div class="footer-links-grid">
+        <div class="footer-col">
+          <p class="footer-col-head">Navigation</p>
+          <ul role="list">
+            <li><a href="#how-we-work">How We Work</a></li>
+            <li><a href="#departments">Departments</a></li>
+            <li><a href="#lifecycle">A-Z Pipeline</a></li>
+            <li><a href="#faq">FAQ</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <p class="footer-col-head">Contact</p>
+          <ul role="list">
+            <li><a href="mailto:contact@nexoralabs.in">contact@nexoralabs.in</a></li>
+            <li><a href="tel:+919876543210">+91 98765 43210</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Nexora Labs. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
