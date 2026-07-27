@@ -155,7 +155,7 @@ async function renderConsole() {
 
   // Fetch live API records if available
   try {
-    const resRecords = await fetch(`${API_BASE_URL}/api/admin/tracking`);
+    const resRecords = await fetch(`${API_BASE_URL}/api/records`);
     if (resRecords.ok) {
       const apiRecordsList = await resRecords.json();
       const recMap = {};
@@ -168,7 +168,7 @@ async function renderConsole() {
   }
 
   try {
-    const resPitches = await fetch(`${API_BASE_URL}/api/admin/pitches`);
+    const resPitches = await fetch(`${API_BASE_URL}/api/pitches`);
     if (resPitches.ok) {
       pitches = await resPitches.json();
       saveLocalPitches(pitches);
@@ -360,7 +360,7 @@ if (recordForm) {
 
     // Post to API
     try {
-      await fetch(`${API_BASE_URL}/api/admin/tracking`, {
+      await fetch(`${API_BASE_URL}/api/records`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(record)
@@ -415,7 +415,7 @@ window.editRecord = function(id) {
 window.deleteRecord = async function(id) {
   if (confirm(`Delete project record ${id}?`)) {
     try {
-      await fetch(`${API_BASE_URL}/api/admin/tracking/${encodeURIComponent(id)}`, { method: 'DELETE' });
+      await fetch(`${API_BASE_URL}/api/records/${encodeURIComponent(id)}`, { method: 'DELETE' });
     } catch (e) {}
 
     const records = getLocalTrackingRecords();
@@ -447,7 +447,7 @@ window.convertPitchToProject = function(index) {
 window.deletePitch = async function(idOrIdx) {
   if (confirm('Delete this pitch inquiry?')) {
     try {
-      await fetch(`${API_BASE_URL}/api/admin/pitches/${encodeURIComponent(idOrIdx)}`, { method: 'DELETE' });
+      await fetch(`${API_BASE_URL}/api/pitches/${encodeURIComponent(idOrIdx)}`, { method: 'DELETE' });
     } catch (e) {}
 
     let pitches = getLocalPitches();

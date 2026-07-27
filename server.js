@@ -85,13 +85,13 @@ app.get('/api/tracking/:id', (req, res) => {
   res.json(record);
 });
 
-// Get all tracking records (Admin)
-app.get('/api/admin/tracking', (req, res) => {
+// Get all tracking records (Manage)
+app.get('/api/records', (req, res) => {
   res.json(Object.values(trackingRecords));
 });
 
-// Create / Update tracking record with dynamic steps & deliverables
-app.post('/api/admin/tracking', (req, res) => {
+// Create / Update tracking record
+app.post('/api/records', (req, res) => {
   const { id, projectName, client, status, progress, notes, steps, deliverables } = req.body;
   if (!id || !projectName || !client) {
     return res.status(400).json({ error: 'Missing required fields (id, projectName, client)' });
@@ -118,7 +118,7 @@ app.post('/api/admin/tracking', (req, res) => {
 });
 
 // Delete tracking record
-app.delete('/api/admin/tracking/:id', (req, res) => {
+app.delete('/api/records/:id', (req, res) => {
   const id = req.params.id.toUpperCase();
   if (trackingRecords[id]) {
     delete trackingRecords[id];
@@ -132,7 +132,6 @@ app.get('/api/download/:recordId/:filename', (req, res) => {
   const { recordId, filename } = req.params;
   const safeFilename = path.basename(filename);
 
-  // Generate synthetic deliverable file content with specific filename header
   const sampleContent = `=====================================================
 NORBYTE LABS — OFFICIAL PROJECT DELIVERABLE BINDER
 Project ID: ${recordId}
@@ -162,7 +161,7 @@ NorByte Labs — Engineering Realities.
 });
 
 // ── PITCHES API ───────────────────────────────
-app.get('/api/admin/pitches', (req, res) => {
+app.get('/api/pitches', (req, res) => {
   res.json(pitches);
 });
 
@@ -181,10 +180,15 @@ app.post('/api/pitches', (req, res) => {
   res.status(201).json({ message: 'Pitch submitted successfully', pitch: newPitch });
 });
 
-app.delete('/api/admin/pitches/:id', (req, res) => {
+app.delete('/api/pitches/:id', (req, res) => {
   const id = req.params.id;
   pitches = pitches.filter(p => p.id !== id);
   res.json({ message: `Pitch ${id} deleted` });
+});
+
+// Serve admin page on /admin route
+app.get('/admin', (req, res) => {
+  res.sendFile(path.join(__dirname, 'admin.html'));
 });
 
 // Fallback route
