@@ -1,0 +1,22 @@
+{
+  "name": "norbyte-labs-app",
+  "version": "1.0.0",
+  "description": "NorByte Labs Frontend & Express Backend API for Engineering Projects & Live Tracking",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2"
+  },
+  "keywords": [
+    "norbyte-labs",
+    "engineering-projects",
+    "telemetry",
+    "tracking-api"
+  ],
+  "author": "NorByte Labs",
+  "license": "MIT"
+}

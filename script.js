@@ -151,14 +151,33 @@ if (form) {
       return;
     }
 
-    // Simulate async submission
+    // Save pitch to API & local storage
+    const newPitch = {
+      id: `PITCH-${Date.now().toString().slice(-4)}`,
+      date: new Date().toISOString().split('T')[0],
+      name: document.getElementById('field-name')?.value || 'Anonymous Client',
+      college: document.getElementById('field-college')?.value || 'Unknown Institution',
+      dept: document.getElementById('field-dept')?.value || 'Engineering',
+      brief: document.getElementById('field-brief')?.value || 'No details provided.'
+    };
+
+    fetch('/api/pitches', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newPitch)
+    }).catch(e => console.warn('API pitch post offline, saved locally'));
+
+    const storedPitches = JSON.parse(localStorage.getItem('norbyte_pitches') || '[]');
+    storedPitches.unshift(newPitch);
+    localStorage.setItem('norbyte_pitches', JSON.stringify(storedPitches));
+
     submitBtn.textContent = 'SUBMITTING...';
     submitBtn.disabled = true;
     submitBtn.style.opacity = '0.7';
 
     setTimeout(() => {
       form.reset();
-      submitBtn.textContent = 'SUBMIT PROJECT PITCH';
+      submitBtn.textContent = 'SUBMIT PROJECT PITCH ⚡';
       submitBtn.disabled = false;
       submitBtn.style.opacity = '';
       successMsg.hidden = false;
@@ -167,7 +186,7 @@ if (form) {
       setTimeout(() => {
         successMsg.hidden = true;
       }, 7000);
-    }, 1200);
+    }, 1000);
   });
 }
 
@@ -254,9 +273,24 @@ if (trackingForm) {
   });
 }
 
-function performTrackingLookup(id) {
-  const records = getTrackingRecords();
-  const record = records[id];
+async function performTrackingLookup(id) {
+  let record = null;
+
+  // Try API first
+  try {
+    const res = await fetch(`/api/tracking/${encodeURIComponent(id)}`);
+    if (res.ok) {
+      record = await res.json();
+    }
+  } catch (e) {
+    console.warn("Backend API unavailable, using local store");
+  }
+
+  // Fallback to local storage
+  if (!record) {
+    const records = getTrackingRecords();
+    record = records[id];
+  }
 
   if (!record) {
     if (resultBox) resultBox.hidden = true;
