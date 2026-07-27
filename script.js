@@ -189,3 +189,221 @@ const sectionObserver = new IntersectionObserver((entries) => {
 }, { threshold: 0.4 });
 
 sections.forEach(s => sectionObserver.observe(s));
+
+
+// ═══════════════════════════════════════════════
+// LIVE PROJECT TRACKING & ADMIN SYSTEM
+// ═══════════════════════════════════════════════
+
+const DEFAULT_TRACKING_DATA = {
+  "NBY-2026-101": {
+    id: "NBY-2026-101",
+    projectName: "IoT Smart Solar Telemetry Grid",
+    client: "Rahul · Model Engineering College",
+    status: "In Progress",
+    progress: 75,
+    notes: "Firmware stress test completed cleanly. Telemetry MQTT feeds active. Preparing final presentation binder."
+  },
+  "NBY-2026-102": {
+    id: "NBY-2026-102",
+    projectName: "Edge AI Defect Inspector Node",
+    client: "Anjali · NIT Calicut",
+    status: "Hardware Assembly",
+    progress: 40,
+    notes: "Raspberry Pi camera interface mounted & OpenCV real-time inference script deployed."
+  }
+};
+
+function getTrackingRecords() {
+  const stored = localStorage.getItem('norbyte_tracking');
+  if (!stored) {
+    localStorage.setItem('norbyte_tracking', JSON.stringify(DEFAULT_TRACKING_DATA));
+    return DEFAULT_TRACKING_DATA;
+  }
+  return JSON.parse(stored);
+}
+
+function saveTrackingRecord(record) {
+  const records = getTrackingRecords();
+  records[record.id] = record;
+  localStorage.setItem('norbyte_tracking', JSON.stringify(records));
+}
+
+// Global Demo Chip Helper
+window.fillTrackingId = function(id) {
+  const input = document.getElementById('tracking-id-input');
+  if (input) {
+    input.value = id;
+    performTrackingLookup(id);
+  }
+};
+
+document.getElementById('chip-1')?.addEventListener('click', () => fillTrackingId('NBY-2026-101'));
+document.getElementById('chip-2')?.addEventListener('click', () => fillTrackingId('NBY-2026-102'));
+
+const trackingForm = document.getElementById('tracking-search-form');
+const trackingIdInput = document.getElementById('tracking-id-input');
+const resultBox = document.getElementById('tracking-result-box');
+const notFoundBox = document.getElementById('tracking-not-found');
+
+if (trackingForm) {
+  trackingForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const queryId = trackingIdInput.value.trim().toUpperCase();
+    performTrackingLookup(queryId);
+  });
+}
+
+function performTrackingLookup(id) {
+  const records = getTrackingRecords();
+  const record = records[id];
+
+  if (!record) {
+    if (resultBox) resultBox.hidden = true;
+    if (notFoundBox) {
+      document.getElementById('not-found-id').textContent = id;
+      notFoundBox.hidden = false;
+    }
+    return;
+  }
+
+  if (notFoundBox) notFoundBox.hidden = true;
+  if (resultBox) {
+    document.getElementById('res-project-name').textContent = record.projectName;
+    document.getElementById('res-client-name').textContent = record.client;
+    
+    const badge = document.getElementById('res-status-badge');
+    badge.textContent = record.status.toUpperCase();
+    badge.className = `status-badge ${record.progress === 100 ? 'status-done' : 'status-in-progress'}`;
+
+    document.getElementById('res-progress-pct').textContent = `${record.progress}%`;
+    document.getElementById('res-progress-fill').style.width = `${record.progress}%`;
+    document.getElementById('res-notes-text').textContent = record.notes;
+
+    // Update timeline steps based on progress
+    const steps = [
+      document.getElementById('step-node-1'),
+      document.getElementById('step-node-2'),
+      document.getElementById('step-node-3'),
+      document.getElementById('step-node-4')
+    ];
+
+    steps.forEach((stepEl, idx) => {
+      if (!stepEl) return;
+      stepEl.className = 'timeline-step';
+      const stepPct = (idx + 1) * 25;
+      if (record.progress >= stepPct) {
+        stepEl.classList.add('step-done');
+      } else if (record.progress >= stepPct - 25) {
+        stepEl.classList.add('step-active');
+      }
+    });
+
+    resultBox.hidden = false;
+    resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+}
+
+// ── ADMIN PORTAL HANDLERS ────────────────────
+const adminOpenBtn = document.getElementById('admin-open-btn');
+const adminCloseBtn = document.getElementById('admin-close-btn');
+const adminModal = document.getElementById('admin-modal');
+const adminLoginForm = document.getElementById('admin-login-form');
+const adminPinInput = document.getElementById('admin-pin-input');
+const adminLoginError = document.getElementById('admin-login-error');
+const adminLoginView = document.getElementById('admin-login-view');
+const adminDashboardView = document.getElementById('admin-dashboard-view');
+const adminLogoutBtn = document.getElementById('admin-logout-btn');
+const adminRecordForm = document.getElementById('admin-record-form');
+const adminTableBody = document.getElementById('admin-records-tbody');
+
+if (adminOpenBtn && adminModal) {
+  adminOpenBtn.addEventListener('click', () => {
+    adminModal.hidden = false;
+    document.body.style.overflow = 'hidden';
+  });
+}
+
+if (adminCloseBtn && adminModal) {
+  adminCloseBtn.addEventListener('click', () => {
+    adminModal.hidden = true;
+    document.body.style.overflow = '';
+  });
+}
+
+if (adminLoginForm) {
+  adminLoginForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const pin = adminPinInput.value.trim();
+    if (pin === '1234' || pin === 'admin123') {
+      adminLoginError.hidden = true;
+      adminLoginView.hidden = true;
+      adminDashboardView.hidden = false;
+      renderAdminTable();
+    } else {
+      adminLoginError.hidden = false;
+    }
+  });
+}
+
+if (adminLogoutBtn) {
+  adminLogoutBtn.addEventListener('click', () => {
+    adminDashboardView.hidden = true;
+    adminLoginView.hidden = false;
+    adminPinInput.value = '';
+  });
+}
+
+if (adminRecordForm) {
+  adminRecordForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const record = {
+      id: document.getElementById('adm-track-id').value.trim().toUpperCase(),
+      projectName: document.getElementById('adm-project-name').value.trim(),
+      client: document.getElementById('adm-client').value.trim(),
+      status: document.getElementById('adm-status').value,
+      progress: parseInt(document.getElementById('adm-progress').value, 10),
+      notes: document.getElementById('adm-notes').value.trim()
+    };
+
+    saveTrackingRecord(record);
+    renderAdminTable();
+    adminRecordForm.reset();
+    alert(`Record ${record.id} saved successfully!`);
+  });
+}
+
+function renderAdminTable() {
+  if (!adminTableBody) return;
+  const records = getTrackingRecords();
+  adminTableBody.innerHTML = '';
+
+  Object.values(records).forEach(rec => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><strong>${rec.id}</strong></td>
+      <td>${rec.projectName}</td>
+      <td>${rec.client}</td>
+      <td><span class="status-badge ${rec.progress === 100 ? 'status-done' : 'status-in-progress'}">${rec.status}</span></td>
+      <td>${rec.progress}%</td>
+      <td>
+        <button type="button" class="btn-outline" style="padding:4px 10px; font-size:11px;" onclick="populateEditRecord('${rec.id}')">EDIT</button>
+      </td>
+    `;
+    adminTableBody.appendChild(tr);
+  });
+}
+
+window.populateEditRecord = function(id) {
+  const records = getTrackingRecords();
+  const rec = records[id];
+  if (!rec) return;
+
+  document.getElementById('adm-track-id').value = rec.id;
+  document.getElementById('adm-project-name').value = rec.projectName;
+  document.getElementById('adm-client').value = rec.client;
+  document.getElementById('adm-status').value = rec.status;
+  document.getElementById('adm-progress').value = rec.progress;
+  document.getElementById('adm-notes').value = rec.notes;
+};
+
