@@ -186,14 +186,12 @@ app.delete('/api/pitches/:id', (req, res) => {
   res.json({ message: `Pitch ${id} deleted` });
 });
 
-// Serve admin console directly on root / and /admin route for backend web service
-app.get(['/', '/admin', '/admin.html'], (req, res) => {
-  res.sendFile(path.join(__dirname, 'admin.html'));
-});
-
-// Fallback route for static / client
+// Serve admin console directly on root / and all non-API routes for backend web service
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+  if (req.path.startsWith('/api')) {
+    return res.status(404).json({ error: 'API endpoint not found' });
+  }
+  res.sendFile(path.join(__dirname, 'admin.html'));
 });
 
 app.listen(PORT, () => {
