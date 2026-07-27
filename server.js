@@ -186,12 +186,12 @@ app.delete('/api/pitches/:id', (req, res) => {
   res.json({ message: `Pitch ${id} deleted` });
 });
 
-// Serve admin page on /admin route
-app.get('/admin', (req, res) => {
+// Serve admin console directly on root / and /admin route for backend web service
+app.get(['/', '/admin', '/admin.html'], (req, res) => {
   res.sendFile(path.join(__dirname, 'admin.html'));
 });
 
-// Fallback route
+// Fallback route for static / client
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });

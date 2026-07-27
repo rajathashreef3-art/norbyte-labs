@@ -378,14 +378,6 @@ ul { list-style: none; }
   position: relative;
   display: inline-block;
 }
-.hero-accent::after {
-  content: '';
-  position: absolute;
-  bottom: 6px; left: 0; right: 0; height: 10px;
-  background-color: var(--accent-dim);
-  z-index: -1;
-  border: 1.5px solid var(--text-primary);
-}
 .hero-sub {
   font-size: 18px;
   font-weight: 500;
