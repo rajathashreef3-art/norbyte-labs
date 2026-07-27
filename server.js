@@ -66,8 +66,13 @@ let pitches = [
   }
 ];
 
-// Serve Static Frontend Files
-app.use(express.static(__dirname));
+// Explicitly serve Admin Console on root GET / for backend web service
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'admin.html'));
+});
+
+// Serve Static Frontend Files (disable index.html default on root)
+app.use(express.static(__dirname, { index: false }));
 
 // Health Check API
 app.get('/api/health', (req, res) => {

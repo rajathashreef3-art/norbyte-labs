@@ -127,7 +127,7 @@ if (adminAuthForm) {
   adminAuthForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const pin = passcodeInput.value.trim();
-    if (pin === '1234' || pin === 'admin123') {
+    if (pin === 'nawaf123') {
       sessionStorage.setItem('admin_authenticated', 'true');
       authErrorMsg.hidden = true;
       checkAuth();
