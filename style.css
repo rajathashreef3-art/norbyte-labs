@@ -1398,6 +1398,57 @@ ul { list-style: none; }
   .tracking-form { flex-direction: column; }
 }
 
+.deliverables-box {
+  background: var(--surface-card);
+  border: 2px solid var(--text-primary);
+  padding: 20px;
+  border-radius: 12px;
+  margin-top: 12px;
+}
+.deliverables-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.deliverable-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--canvas);
+  border: 1.5px solid var(--text-primary);
+  padding: 10px 16px;
+  border-radius: 10px;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.deliverable-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.deliverable-dl-btn {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11.5px;
+  font-weight: 800;
+  color: var(--text-primary);
+  background: var(--accent-dim);
+  border: 1.5px solid var(--text-primary);
+  padding: 6px 14px;
+  border-radius: var(--radius-circle);
+  box-shadow: var(--comic-shadow-sm);
+  transition: transform var(--transition);
+  text-decoration: none;
+  cursor: pointer;
+}
+.deliverable-dl-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0px var(--text-primary);
+}
+
 /* ══════════════════════════════
    REDUCED MOTION SAFETY
    ══════════════════════════════ */

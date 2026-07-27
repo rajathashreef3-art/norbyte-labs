@@ -161,7 +161,7 @@ if (form) {
       brief: document.getElementById('field-brief')?.value || 'No details provided.'
     };
 
-    fetch('/api/pitches', {
+    fetch(`${API_BASE_URL}/api/pitches`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(newPitch)
@@ -273,12 +273,16 @@ if (trackingForm) {
   });
 }
 
+const API_BASE_URL = (window.location.hostname.includes('onrender.com') && !window.location.hostname.includes('norbyte-backend'))
+  ? 'https://norbyte-backend.onrender.com'
+  : '';
+
 async function performTrackingLookup(id) {
   let record = null;
 
   // Try API first
   try {
-    const res = await fetch(`/api/tracking/${encodeURIComponent(id)}`);
+    const res = await fetch(`${API_BASE_URL}/api/tracking/${encodeURIComponent(id)}`);
     if (res.ok) {
       record = await res.json();
     }
@@ -314,24 +318,61 @@ async function performTrackingLookup(id) {
     document.getElementById('res-progress-fill').style.width = `${record.progress}%`;
     document.getElementById('res-notes-text').textContent = record.notes;
 
-    // Update timeline steps based on progress
-    const steps = [
-      document.getElementById('step-node-1'),
-      document.getElementById('step-node-2'),
-      document.getElementById('step-node-3'),
-      document.getElementById('step-node-4')
-    ];
+    // Render dynamic steps (supports 3, 4, 5, 6+ custom steps)
+    const stepperEl = document.getElementById('dynamic-timeline-stepper');
+    if (stepperEl) {
+      stepperEl.innerHTML = '';
+      const stepList = record.steps || [
+        { title: "1. Concept & Scope Locked", detail: "IEEE baseline architecture & specs.", status: "done" },
+        { title: "2. Hardware & Firmware Assembly", detail: "Microcontroller programmed & board wired.", status: "done" },
+        { title: "3. Dashboard & Telemetry Setup", detail: "Real-time analytics streams connected.", status: "active" },
+        { title: "4. Viva Documentation & Shipping", detail: "Complete project package dispatched.", status: "pending" }
+      ];
 
-    steps.forEach((stepEl, idx) => {
-      if (!stepEl) return;
-      stepEl.className = 'timeline-step';
-      const stepPct = (idx + 1) * 25;
-      if (record.progress >= stepPct) {
-        stepEl.classList.add('step-done');
-      } else if (record.progress >= stepPct - 25) {
-        stepEl.classList.add('step-active');
+      stepList.forEach((step, idx) => {
+        const stepDiv = document.createElement('div');
+        const isDone = step.status === 'done' || record.progress >= ((idx + 1) * (100 / stepList.length));
+        const isActive = step.status === 'active' || (!isDone && record.progress >= (idx * (100 / stepList.length)));
+        
+        stepDiv.className = `timeline-step ${isDone ? 'step-done' : (isActive ? 'step-active' : '')}`;
+        stepDiv.innerHTML = `
+          <div class="step-icon">${isDone ? '✓' : (isActive ? '⚡' : '📦')}</div>
+          <div class="step-details">
+            <h4>${step.title}</h4>
+            <p>${step.detail}</p>
+          </div>
+        `;
+        stepperEl.appendChild(stepDiv);
+      });
+    }
+
+    // Render deliverables download list with specific filenames
+    const delivListEl = document.getElementById('res-deliverables-list');
+    const delivSecEl = document.getElementById('res-deliverables-section');
+    if (delivListEl && delivSecEl) {
+      delivListEl.innerHTML = '';
+      const deliverables = record.deliverables || [];
+      if (deliverables.length === 0) {
+        delivSecEl.hidden = true;
+      } else {
+        delivSecEl.hidden = false;
+        deliverables.forEach(file => {
+          const item = document.createElement('div');
+          item.className = 'deliverable-item';
+          const fileIcon = file.type === 'code' ? '💻' : (file.type === 'image' ? '🖼️' : '📄');
+          const downloadUrl = `${API_BASE_URL}/api/download/${record.id}/${encodeURIComponent(file.name)}`;
+          item.innerHTML = `
+            <div class="deliverable-info">
+              <span>${fileIcon}</span>
+              <span>${file.name}</span>
+              <span style="color:var(--text-muted); font-size:11px;">(${file.size || '1.5 MB'})</span>
+            </div>
+            <a href="${downloadUrl}" download="${file.name}" class="deliverable-dl-btn">DOWNLOAD 📥</a>
+          `;
+          delivListEl.appendChild(item);
+        });
       }
-    });
+    }
 
     resultBox.hidden = false;
     resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });

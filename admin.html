@@ -185,7 +185,29 @@
             </div>
           </div>
 
-          <button type="submit" class="btn-primary" style="width:100%; margin-top:12px;">SAVE &amp; PUBLISH RECORD ⚡</button>
+          <!-- Dynamic Timeline Steps Builder -->
+          <div style="margin-top:20px; padding-top:16px; border-top:2px solid var(--text-primary);">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+              <h4 style="font-size:14px; font-weight:800;">DYNAMIC TIMELINE STEPS (CUSTOM STEPS FOR FRONTEND)</h4>
+              <button type="button" id="add-step-btn" class="btn-outline btn-sm">+ ADD STEP</button>
+            </div>
+            <div id="steps-builder-container" style="display:flex; flex-direction:column; gap:10px;">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+
+          <!-- Project Deliverables & Files Builder -->
+          <div style="margin-top:20px; padding-top:16px; border-top:2px solid var(--text-primary);">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+              <h4 style="font-size:14px; font-weight:800;">ATTACH PROJECT FILES / DELIVERABLES (DOWNLOADABLE WITH SPECIFIC FILENAMES)</h4>
+              <button type="button" id="add-file-btn" class="btn-outline btn-sm">+ ATTACH FILE</button>
+            </div>
+            <div id="files-builder-container" style="display:flex; flex-direction:column; gap:10px;">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+
+          <button type="submit" class="btn-primary" style="width:100%; margin-top:20px;">SAVE &amp; PUBLISH RECORD TO FRONTEND ⚡</button>
         </form>
       </section>
 
