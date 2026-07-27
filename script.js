@@ -59,31 +59,33 @@ mobileMenu.querySelectorAll('a').forEach(link => {
   });
 });
 
-// ── DEPARTMENT TABS ───────────────────────────
-const tabs = document.querySelectorAll('.dept-tab');
-const panels = document.querySelectorAll('.dept-panel');
+// ── DEPARTMENT TABS (INSTANT DELEGATED CLICK) ─
+document.addEventListener('click', (e) => {
+  const tab = e.target.closest('.dept-tab');
+  if (!tab) return;
 
-tabs.forEach(tab => {
-  tab.addEventListener('click', () => {
-    const target = tab.getAttribute('aria-controls');
+  const targetId = tab.getAttribute('aria-controls');
+  const allTabs = document.querySelectorAll('.dept-tab');
+  const allPanels = document.querySelectorAll('.dept-panel');
 
-    tabs.forEach(t => {
-      t.classList.remove('active');
-      t.setAttribute('aria-selected', 'false');
-    });
-    panels.forEach(p => {
-      p.classList.remove('active');
-      p.hidden = true;
-    });
-
-    tab.classList.add('active');
-    tab.setAttribute('aria-selected', 'true');
-    const panel = document.getElementById(target);
-    if (panel) {
-      panel.classList.add('active');
-      panel.hidden = false;
-    }
+  allTabs.forEach(t => {
+    t.classList.remove('active');
+    t.setAttribute('aria-selected', 'false');
   });
+
+  allPanels.forEach(p => {
+    p.classList.remove('active');
+    p.hidden = true;
+  });
+
+  tab.classList.add('active');
+  tab.setAttribute('aria-selected', 'true');
+
+  const panel = document.getElementById(targetId);
+  if (panel) {
+    panel.classList.add('active');
+    panel.hidden = false;
+  }
 });
 
 // ── FAQ ACCORDION ─────────────────────────────
@@ -278,33 +280,47 @@ const API_BASE_URL = (window.location.hostname.includes('onrender.com') && !wind
   : '';
 
 async function performTrackingLookup(id) {
-  let record = null;
+  // 1. INSTANT zero-delay render from local storage / seed memory
+  const localRecords = getTrackingRecords();
+  let record = localRecords[id];
 
-  // Try API first
+  if (record) {
+    renderTrackingResult(record);
+  }
+
+  // 2. Async background API fetch (with 2.5s fast timeout to prevent cold-start hanging)
   try {
-    const res = await fetch(`${API_BASE_URL}/api/tracking/${encodeURIComponent(id)}`);
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 2500);
+
+    const res = await fetch(`${API_BASE_URL}/api/tracking/${encodeURIComponent(id)}`, {
+      signal: controller.signal
+    });
+    clearTimeout(timeoutId);
+
     if (res.ok) {
-      record = await res.json();
+      const apiRecord = await res.json();
+      renderTrackingResult(apiRecord);
+      // Cache for future instant lookups
+      localRecords[id] = apiRecord;
+      saveTrackingRecords(localRecords);
+      return;
     }
   } catch (e) {
-    console.warn("Backend API unavailable, using local store");
+    // API offline or cold-start timeout — local record already rendered instantly
   }
 
-  // Fallback to local storage
-  if (!record) {
-    const records = getTrackingRecords();
-    record = records[id];
-  }
-
+  // If neither local nor API has the record
   if (!record) {
     if (resultBox) resultBox.hidden = true;
     if (notFoundBox) {
       document.getElementById('not-found-id').textContent = id;
       notFoundBox.hidden = false;
     }
-    return;
   }
+}
 
+function renderTrackingResult(record) {
   if (notFoundBox) notFoundBox.hidden = true;
   if (resultBox) {
     document.getElementById('res-project-name').textContent = record.projectName;

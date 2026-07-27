@@ -282,9 +282,10 @@ function addFileRow(filename = '', filetype = 'document', size = '1.5 MB') {
   if (!filesContainer) return;
   const row = document.createElement('div');
   row.className = 'file-builder-row';
-  row.style.cssText = 'display:grid; grid-template-columns: 3fr 1fr 1fr 40px; gap:8px; align-items:center;';
+  row.style.cssText = 'display:grid; grid-template-columns: 2fr 2fr 1fr 1fr 40px; gap:8px; align-items:center;';
   row.innerHTML = `
     <input type="text" class="file-name-in" placeholder="Specific Filename (e.g. NorByte_Report_NBY-101.pdf)" value="${filename}" required />
+    <input type="file" class="file-upload-input" style="font-size:11px; padding:6px; border:1.5px solid var(--text-primary); border-radius:6px;" />
     <select class="file-type-in">
       <option value="document" ${filetype === 'document' ? 'selected' : ''}>📄 PDF/Doc</option>
       <option value="code" ${filetype === 'code' ? 'selected' : ''}>💻 Code ZIP</option>
@@ -293,6 +294,42 @@ function addFileRow(filename = '', filetype = 'document', size = '1.5 MB') {
     <input type="text" class="file-size-in" placeholder="Size (e.g. 2.4 MB)" value="${size}" />
     <button type="button" class="btn-outline btn-sm btn-danger" onclick="this.parentElement.remove()" style="padding:8px;">&times;</button>
   `;
+
+  const fileInput = row.querySelector('.file-upload-input');
+  fileInput.addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/upload`, {
+        method: 'POST',
+        body: formData
+      });
+      if (res.ok) {
+        const data = await res.json();
+        row.querySelector('.file-name-in').value = data.storedFilename || file.name;
+        row.querySelector('.file-size-in').value = data.size || (file.size / (1024 * 1024)).toFixed(1) + ' MB';
+
+        // Auto detect file type
+        const typeSelect = row.querySelector('.file-type-in');
+        if (file.name.endsWith('.zip') || file.name.endsWith('.rar') || file.name.endsWith('.py') || file.name.endsWith('.cpp') || file.name.endsWith('.ino')) {
+          typeSelect.value = 'code';
+        } else if (file.name.endsWith('.png') || file.name.endsWith('.jpg') || file.name.endsWith('.jpeg')) {
+          typeSelect.value = 'image';
+        } else {
+          typeSelect.value = 'document';
+        }
+        alert(`File [${file.name}] uploaded successfully to backend server deliverables storage!`);
+      }
+    } catch (err) {
+      row.querySelector('.file-name-in').value = file.name;
+      row.querySelector('.file-size-in').value = (file.size / (1024 * 1024)).toFixed(1) + ' MB';
+    }
+  });
+
   filesContainer.appendChild(row);
 }
 

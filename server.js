@@ -3,17 +3,30 @@ const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
 
+const multer = require('multer');
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors());
-app.use(express.json({ limit: '10mb' }));
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
 // Directory for project deliverables
 const UPLOADS_DIR = path.join(__dirname, 'deliverables');
 if (!fs.existsSync(UPLOADS_DIR)) {
   fs.mkdirSync(UPLOADS_DIR, { recursive: true });
 }
+
+// Multer storage engine
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, UPLOADS_DIR),
+  filename: (req, file, cb) => {
+    const safeName = file.originalname.replace(/[^a-zA-Z0-9._-]/g, '_');
+    cb(null, safeName);
+  }
+});
+const upload = multer({ storage, limits: { fileSize: 50 * 1024 * 1024 } });
 
 // In-Memory Data Store (Initialized with dynamic steps and downloadable deliverables)
 let trackingRecords = {
@@ -132,11 +145,34 @@ app.delete('/api/records/:id', (req, res) => {
   res.status(404).json({ error: 'Record not found' });
 });
 
+// ── FILE UPLOAD ENDPOINT ──────────────────────
+app.post('/api/upload', upload.single('file'), (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ error: 'No file uploaded' });
+  }
+  const originalName = req.file.originalname;
+  const storedName = req.file.filename;
+  const size = (req.file.size / (1024 * 1024)).toFixed(1) + ' MB';
+  res.json({
+    message: 'File uploaded successfully',
+    filename: originalName,
+    storedFilename: storedName,
+    size: size
+  });
+});
+
 // ── FILE DOWNLOAD ENDPOINT WITH SPECIFIC CUSTOM FILENAME ──────
 app.get('/api/download/:recordId/:filename', (req, res) => {
   const { recordId, filename } = req.params;
   const safeFilename = path.basename(filename);
+  const filePath = path.join(UPLOADS_DIR, safeFilename);
 
+  // If real uploaded file exists, serve it
+  if (fs.existsSync(filePath)) {
+    return res.download(filePath, safeFilename);
+  }
+
+  // Fallback synthetic deliverable content
   const sampleContent = `=====================================================
 NORBYTE LABS — OFFICIAL PROJECT DELIVERABLE BINDER
 Project ID: ${recordId}

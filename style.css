@@ -669,6 +669,9 @@ ul { list-style: none; }
   margin-bottom: -3px;
   transition: color var(--transition), background-color var(--transition), border-color var(--transition);
   text-transform: uppercase;
+  cursor: pointer;
+  background: transparent;
+  outline: none;
 }
 .dept-tab:hover { color: var(--text-primary); }
 .dept-tab.active {
@@ -686,7 +689,10 @@ ul { list-style: none; }
   box-shadow: var(--comic-shadow);
   transition: opacity var(--transition);
 }
-.dept-panel.active { display: block; animation: fadeIn 0.4s var(--transition); }
+.dept-panel[hidden] {
+  display: none !important;
+}
+.dept-panel.active { display: block !important; animation: fadeIn 0.25s ease-out; }
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
