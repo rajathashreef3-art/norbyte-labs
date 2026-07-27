@@ -235,6 +235,12 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'admin.html'));
 });
 
-app.listen(PORT, () => {
-  console.log(`⚡ NorByte Labs Server running on port ${PORT}`);
-});
+// Only start listening when run directly (`node server.js`), not when the
+// app is imported by the test suite via Supertest.
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`⚡ NorByte Labs Server running on port ${PORT}`);
+  });
+}
+
+module.exports = app;
