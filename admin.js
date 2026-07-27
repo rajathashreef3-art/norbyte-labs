@@ -9,6 +9,18 @@ const API_BASE_URL = (window.location.hostname.includes('onrender.com') && !wind
   ? 'https://norbyte-backend.onrender.com'
   : '';
 
+// ── HTML ESCAPING ─────────────────────────────
+// Escape user-controlled values before injecting them into the records/pitches
+// table innerHTML. Prevents stored-XSS via record or pitch fields.
+function escapeHtml(value) {
+  return String(value == null ? '' : value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 // ── THEME INITIALIZATION ──────────────────────
 const themeToggle = document.getElementById('theme-toggle');
 const savedTheme = localStorage.getItem('theme');
@@ -207,16 +219,16 @@ function renderRecordsTable(records, filter = '') {
 
     const tr = document.createElement('tr');
     tr.innerHTML = `
-      <td><strong style="font-family:'JetBrains Mono', monospace;">${rec.id}</strong></td>
-      <td><strong>${rec.projectName}</strong></td>
-      <td>${rec.client}</td>
-      <td><span class="status-badge ${rec.progress === 100 ? 'status-done' : 'status-in-progress'}">${rec.status}</span></td>
-      <td><strong>${rec.progress}%</strong></td>
-      <td style="max-width:240px; font-size:12px; color:var(--text-body);">${rec.notes}</td>
+      <td><strong style="font-family:'JetBrains Mono', monospace;">${escapeHtml(rec.id)}</strong></td>
+      <td><strong>${escapeHtml(rec.projectName)}</strong></td>
+      <td>${escapeHtml(rec.client)}</td>
+      <td><span class="status-badge ${rec.progress === 100 ? 'status-done' : 'status-in-progress'}">${escapeHtml(rec.status)}</span></td>
+      <td><strong>${escapeHtml(rec.progress)}%</strong></td>
+      <td style="max-width:240px; font-size:12px; color:var(--text-body);">${escapeHtml(rec.notes)}</td>
       <td>
         <div class="action-btns">
-          <button type="button" class="btn-outline btn-sm" onclick="editRecord('${rec.id}')">EDIT</button>
-          <button type="button" class="btn-outline btn-sm btn-danger" onclick="deleteRecord('${rec.id}')">DELETE</button>
+          <button type="button" class="btn-outline btn-sm" onclick="editRecord('${escapeHtml(rec.id)}')">EDIT</button>
+          <button type="button" class="btn-outline btn-sm btn-danger" onclick="deleteRecord('${escapeHtml(rec.id)}')">DELETE</button>
         </div>
       </td>
     `;
@@ -238,11 +250,11 @@ function renderPitchesTable(pitches) {
   pitches.forEach((p, idx) => {
     const tr = document.createElement('tr');
     tr.innerHTML = `
-      <td style="font-size:11px; font-family:'JetBrains Mono', monospace;">${p.date || '2026-07-27'}</td>
-      <td><strong>${p.name}</strong></td>
-      <td>${p.college}</td>
-      <td><span class="status-badge" style="background:var(--canvas); color:var(--text-primary);">${p.dept}</span></td>
-      <td style="max-width:280px; font-size:12px;">${p.brief}</td>
+      <td style="font-size:11px; font-family:'JetBrains Mono', monospace;">${escapeHtml(p.date || '2026-07-27')}</td>
+      <td><strong>${escapeHtml(p.name)}</strong></td>
+      <td>${escapeHtml(p.college)}</td>
+      <td><span class="status-badge" style="background:var(--canvas); color:var(--text-primary);">${escapeHtml(p.dept)}</span></td>
+      <td style="max-width:280px; font-size:12px;">${escapeHtml(p.brief)}</td>
       <td>
         <div class="action-btns">
           <button type="button" class="btn-primary btn-sm" onclick="convertPitchToProject(${idx})">CONVERT ➔</button>

@@ -8,6 +8,18 @@
 
 'use strict';
 
+// ── HTML ESCAPING ─────────────────────────────
+// Escape user-controlled values before they are placed into innerHTML sinks
+// (timeline steps, deliverable filenames). Prevents stored-XSS via record data.
+function escapeHtml(value) {
+  return String(value == null ? '' : value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 // ── THEME INITIALIZATION & TOGGLE ─────────────
 const themeToggle = document.getElementById('theme-toggle');
 const savedTheme = localStorage.getItem('theme');
@@ -338,8 +350,8 @@ async function performTrackingLookup(id) {
         stepDiv.innerHTML = `
           <div class="step-icon">${isDone ? '✓' : (isActive ? '⚡' : '📦')}</div>
           <div class="step-details">
-            <h4>${step.title}</h4>
-            <p>${step.detail}</p>
+            <h4>${escapeHtml(step.title)}</h4>
+            <p>${escapeHtml(step.detail)}</p>
           </div>
         `;
         stepperEl.appendChild(stepDiv);
@@ -364,10 +376,10 @@ async function performTrackingLookup(id) {
           item.innerHTML = `
             <div class="deliverable-info">
               <span>${fileIcon}</span>
-              <span>${file.name}</span>
-              <span style="color:var(--text-muted); font-size:11px;">(${file.size || '1.5 MB'})</span>
+              <span>${escapeHtml(file.name)}</span>
+              <span style="color:var(--text-muted); font-size:11px;">(${escapeHtml(file.size || '1.5 MB')})</span>
             </div>
-            <a href="${downloadUrl}" download="${file.name}" class="deliverable-dl-btn">DOWNLOAD 📥</a>
+            <a href="${downloadUrl}" download="${escapeHtml(file.name)}" class="deliverable-dl-btn">DOWNLOAD 📥</a>
           `;
           delivListEl.appendChild(item);
         });

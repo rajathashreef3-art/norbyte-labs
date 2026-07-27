@@ -1460,4 +1460,146 @@ ul { list-style: none; }
   .reveal-item { opacity: 1; transform: none; transition: none; }
   .step-card:hover, .philosophy-card:hover, .faq-item:hover, .contact-form:hover { transform: none; }
   .theme-toggle-btn:hover { transform: none; }
+  .pow-badge { animation: none !important; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   BOLD FULL-COMIC AMPLIFIER
+   Display face (Bangers), halftone texture, starbursts, punchier
+   panels + states. Appended last so it layers over the base system.
+   ═══════════════════════════════════════════════════════════════ */
+:root { --font-display: 'Bangers', 'Outfit', system-ui, cursive; }
+
+/* ── Comic display headlines ── */
+.hero-section h1,
+.section h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: 2px;
+  line-height: 1.02;
+  -webkit-text-stroke: 0.4px var(--text-primary);
+  text-shadow: 3px 3px 0 rgba(15, 23, 42, 0.14);
+}
+.dark-theme .hero-section h1,
+.dark-theme .section h2 { text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.5); }
+.hero-section h1 {
+  font-size: clamp(42px, 6.4vw, 84px);
+  letter-spacing: 2.5px;
+}
+.section h2 { font-size: clamp(32px, 4.8vw, 52px); }
+/* Modal + admin headings share the comic voice */
+.modal-title,
+.admin-title,
+.dash-title { font-family: var(--font-display); font-weight: 400; letter-spacing: 1.5px; }
+
+/* Underline swash under the hero accent reads more marker-drawn */
+.hero-accent::after { transform: skewX(-8deg); height: 12px; }
+
+/* ── Halftone (Ben-Day) texture utility ── */
+.halftone-fx { position: relative; }
+.halftone-fx::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: radial-gradient(var(--accent) 22%, transparent 23%);
+  background-size: 14px 14px;
+  opacity: 0.12;
+  -webkit-mask-image: linear-gradient(135deg, #000 0%, transparent 55%);
+  mask-image: linear-gradient(135deg, #000 0%, transparent 55%);
+}
+.hero-section { --_ht: 1; }
+.hero-section::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background-image: radial-gradient(var(--accent) 20%, transparent 21%);
+  background-size: 18px 18px;
+  opacity: 0.10;
+  -webkit-mask-image: radial-gradient(circle at 85% 15%, #000 0%, transparent 42%);
+  mask-image: radial-gradient(circle at 85% 15%, #000 0%, transparent 42%);
+}
+.contact-section { position: relative; overflow: hidden; }
+.contact-section::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: radial-gradient(var(--accent) 20%, transparent 21%);
+  background-size: 16px 16px;
+  opacity: 0.10;
+  -webkit-mask-image: radial-gradient(circle at 10% 90%, #000 0%, transparent 45%);
+  mask-image: radial-gradient(circle at 10% 90%, #000 0%, transparent 45%);
+}
+.contact-section > .container { position: relative; z-index: 1; }
+
+/* ── Starburst "POW" badge ── */
+.pow-badge {
+  position: absolute;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 116px;
+  height: 116px;
+  padding: 8px;
+  text-align: center;
+  color: var(--text-primary);
+  background: var(--accent-dim);
+  border: var(--border-width) solid var(--text-primary);
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 1;
+  letter-spacing: 0.5px;
+  clip-path: polygon(
+    50% 0%, 61% 20%, 83% 12%, 78% 35%, 100% 43%, 82% 57%,
+    92% 80%, 68% 76%, 60% 100%, 46% 79%, 22% 88%, 27% 64%,
+    3% 57%, 22% 42%, 8% 20%, 33% 25%, 40% 3%
+  );
+  transform: rotate(-14deg);
+  animation: powPulse 1.8s ease-in-out infinite;
+}
+.pow-badge--hero { top: 100px; right: 6%; }
+@keyframes powPulse {
+  0%, 100% { transform: rotate(-14deg) scale(1); }
+  50%      { transform: rotate(-14deg) scale(1.08); }
+}
+@media (max-width: 768px) { .pow-badge--hero { width: 76px; height: 76px; font-size: 12px; top: 78px; right: 6%; } }
+
+/* ── Punchier comic panels: shared sticker-lift on hover ── */
+.step-card, .philosophy-card, .dept-card, .faq-item, .tracking-panel {
+  transition: transform var(--transition), box-shadow var(--transition), background-color var(--transition);
+}
+.step-card:hover, .philosophy-card:hover, .dept-card:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: var(--comic-shadow-lg);
+}
+
+/* ── Status badges: add a distinct pending + stronger done ── */
+.status-badge { letter-spacing: 1px; }
+.status-pending { background: var(--canvas-soft); color: var(--text-muted); }
+.step-details h4 { letter-spacing: 0.3px; }
+
+/* ── Progress bar: candy-stripe pop ── */
+.progress-bar-fill {
+  background-image: repeating-linear-gradient(
+    45deg,
+    var(--accent) 0, var(--accent) 10px,
+    var(--accent-bright) 10px, var(--accent-bright) 20px
+  );
+}
+
+/* ── Focus visibility: comic outline ring ── */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 6px;
 }

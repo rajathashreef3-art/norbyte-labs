@@ -7,7 +7,7 @@
   <meta name="robots" content="noindex, nofollow" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;700&family=Bangers&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
   <style>
     body { background: var(--canvas-soft); }
@@ -77,6 +77,25 @@
       .metrics-grid { grid-template-columns: 1fr 1fr; }
       .form-grid-2 { grid-template-columns: 1fr; }
     }
+
+    /* Bold full-comic display headings */
+    .admin-title-text h1,
+    .login-card h2,
+    .admin-panel-head h3,
+    #form-panel-title {
+      font-family: 'Bangers', 'Outfit', system-ui, cursive;
+      font-weight: 400;
+      letter-spacing: 1.4px;
+      -webkit-text-stroke: 0.3px var(--text-primary);
+      text-shadow: 2px 2px 0 rgba(15, 23, 42, 0.12);
+    }
+    .dark-theme .admin-title-text h1,
+    .dark-theme .login-card h2,
+    .dark-theme .admin-panel-head h3,
+    .dark-theme #form-panel-title { text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5); }
+    .admin-title-text h1 { font-size: 30px; }
+    .login-card h2 { font-size: 30px; }
+    .admin-panel-head h3 { font-size: 22px; }
   </style>
 </head>
 <body>
