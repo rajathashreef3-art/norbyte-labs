@@ -394,6 +394,3 @@ function renderTrackingResult(record) {
     resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 }
-
-}
-
