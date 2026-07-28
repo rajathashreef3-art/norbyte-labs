@@ -1589,7 +1589,9 @@ ul { list-style: none; }
   animation: powPulse 1.8s ease-in-out infinite;
 }
 .pow-badge--hero { top: 100px; right: 6%; }
-@media (max-width: 768px) { .pow-badge--hero { width: 76px; height: 76px; font-size: 12px; top: 78px; right: 6%; } }
+/* Below the nav breakpoint the hero has no side whitespace, so the badge
+   would overlap the headline — hide it there (decorative). */
+@media (max-width: 900px) { .pow-badge--hero { display: none; } }
 
 /* ── Playful hover: cards tilt like stickers peeling up ── */
 .step-card, .philosophy-card, .dept-card, .faq-item, .lifecycle-item, .tracking-panel {
@@ -1730,4 +1732,44 @@ select:focus-visible, textarea:focus-visible {
   .hero-accent::after { animation: none; transform: skewX(-8deg) scaleX(1); }
   .step-card:hover, .philosophy-card:hover, .dept-card:hover,
   .lifecycle-item:hover, .hero-badge:hover { transform: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE REFINEMENTS — phones & tablets
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Tablet: inset the hero underline so the marker swash never bleeds
+   to the viewport edge. */
+@media (max-width: 900px) {
+  .hero-accent::after { left: 3%; right: 3%; }
+  .hero-inner { padding: 48px 24px 32px; gap: 32px; }
+}
+
+/* Phones: tighter hero, no wrapped-underline strike-through, roomier
+   forms, and safely wrapping deliverable filenames. */
+@media (max-width: 600px) {
+  .hero-section { padding-top: 96px; }
+  .hero-section h1 { font-size: clamp(30px, 8.4vw, 44px); letter-spacing: 1.5px; }
+  /* The accent word wraps on phones, turning the swash into a
+     strike-through — drop it; the blue accent color carries the emphasis. */
+  .hero-accent::after { display: none; }
+  .section { padding: 64px 0; }
+  .section h2 { font-size: clamp(28px, 8.6vw, 40px); }
+  .hero-sub { font-size: 16px; }
+  .hero-ctas { width: 100%; flex-direction: column; align-items: stretch; }
+  .hero-ctas .btn-primary,
+  .hero-ctas .btn-outline { width: 100%; }
+
+  /* Tracking panel + deliverables */
+  .tracking-card { padding: 22px; }
+  .deliverable-item { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .deliverable-info { min-width: 0; font-size: 12px; }
+  .deliverable-info span { overflow-wrap: anywhere; }
+  .deliverable-dl-btn { align-self: flex-end; }
+}
+
+/* Very small phones: keep the timeline stepper legible in one column. */
+@media (max-width: 380px) {
+  .timeline-stepper { grid-template-columns: 1fr; }
+  .container { padding: 0 16px; }
 }
