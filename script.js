@@ -494,3 +494,59 @@ window.populateEditRecord = function(id) {
   document.getElementById('adm-notes').value = rec.notes;
 };
 
+// ═══════════════════════════════════════════════
+// WHATSAPP CONTACT (safety net — reaches you even if the API is asleep)
+// ═══════════════════════════════════════════════
+// ⚠️ Replace with NorByte Labs' real WhatsApp number in international format,
+// digits only, no "+" or spaces (e.g. 91XXXXXXXXXX for an Indian number).
+const WHATSAPP_NUMBER = '910000000000';
+
+function buildWhatsAppLink(message) {
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+}
+
+// Floating "Chat with us" button — generic opener.
+const whatsappFab = document.getElementById('whatsapp-fab');
+if (whatsappFab) {
+  whatsappFab.href = buildWhatsAppLink(
+    "Hi NorByte Labs! I'd like to discuss an engineering project."
+  );
+  whatsappFab.target = '_blank';
+}
+
+// Pitch form → "Send on WhatsApp": prefill the student's details so the lead
+// lands directly on your phone, no backend required.
+const whatsappPitchBtn = document.getElementById('whatsapp-pitch-btn');
+if (whatsappPitchBtn) {
+  whatsappPitchBtn.target = '_blank';
+  whatsappPitchBtn.href = buildWhatsAppLink(
+    "Hi NorByte Labs! I'd like to pitch a project idea."
+  );
+  whatsappPitchBtn.addEventListener('click', () => {
+    const name = document.getElementById('field-name')?.value.trim();
+    const college = document.getElementById('field-college')?.value.trim();
+    const dept = document.getElementById('field-dept')?.value.trim();
+    const brief = document.getElementById('field-brief')?.value.trim();
+
+    const lines = ['Hi NorByte Labs! I want to pitch a project:'];
+    if (name) lines.push(`• Name: ${name}`);
+    if (college) lines.push(`• College/Company: ${college}`);
+    if (dept) lines.push(`• Department: ${dept}`);
+    if (brief) lines.push(`• Brief: ${brief}`);
+
+    // Update the href just before the browser follows it.
+    whatsappPitchBtn.href = buildWhatsAppLink(lines.join('\n'));
+  });
+}
+
+// Pricing CTAs → carry the chosen package into the pitch textarea.
+document.querySelectorAll('.pricing-cta[data-package]').forEach(cta => {
+  cta.addEventListener('click', () => {
+    const pkg = cta.getAttribute('data-package');
+    const brief = document.getElementById('field-brief');
+    if (brief && !brief.value.trim()) {
+      brief.value = `I'm interested in the ${pkg} package. `;
+    }
+  });
+});
+
