@@ -1464,11 +1464,27 @@ ul { list-style: none; }
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   BOLD FULL-COMIC AMPLIFIER
-   Display face (Bangers), halftone texture, starbursts, punchier
-   panels + states. Appended last so it layers over the base system.
+   COMIC REVAMP — light, minimal & playful
+   A cohesive layer appended last: brighter friendly palette, comic
+   display headings, curated comic elements + light animations.
    ═══════════════════════════════════════════════════════════════ */
-:root { --font-display: 'Bangers', 'Outfit', system-ui, cursive; }
+
+/* ── Refined light tokens (brighter, friendlier, minimal) ── */
+:root {
+  --font-display: 'Bangers', 'Outfit', system-ui, cursive;
+  --canvas:        #fffdf8; /* clean bright paper */
+  --canvas-soft:   #fbf4e8; /* warm cream for alt bands */
+  --surface-card:  #ffffff;
+  --accent:        #2f6bff; /* friendly comic blue */
+  --accent-bright: #5b8bff;
+  --accent-dim:    #ffd63d; /* sunny comic yellow */
+  --accent-danger: #ff5b6e; /* soft comic red */
+  --accent-pop:    #ff5ea8; /* playful pink, doodles only */
+  --comic-shadow:    5px 5px 0px var(--text-primary);
+  --comic-shadow-lg: 9px 9px 0px var(--text-primary);
+  --comic-shadow-sm: 3px 3px 0px var(--text-primary);
+}
+.dark-theme { --accent-pop: #ff7ac0; }
 
 /* ── Comic display headlines ── */
 .hero-section h1,
@@ -1478,39 +1494,28 @@ ul { list-style: none; }
   letter-spacing: 2px;
   line-height: 1.02;
   -webkit-text-stroke: 0.4px var(--text-primary);
-  text-shadow: 3px 3px 0 rgba(15, 23, 42, 0.14);
+  text-shadow: 3px 3px 0 rgba(15, 23, 42, 0.12);
 }
 .dark-theme .hero-section h1,
 .dark-theme .section h2 { text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.5); }
-.hero-section h1 {
-  font-size: clamp(42px, 6.4vw, 84px);
-  letter-spacing: 2.5px;
-}
+.hero-section h1 { font-size: clamp(42px, 6.4vw, 84px); letter-spacing: 2.5px; }
 .section h2 { font-size: clamp(32px, 4.8vw, 52px); }
-/* Modal + admin headings share the comic voice */
-.modal-title,
-.admin-title,
-.dash-title { font-family: var(--font-display); font-weight: 400; letter-spacing: 1.5px; }
-
-/* Underline swash under the hero accent reads more marker-drawn */
-.hero-accent::after { transform: skewX(-8deg); height: 12px; }
-
-/* ── Halftone (Ben-Day) texture utility ── */
-.halftone-fx { position: relative; }
-.halftone-fx::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  background-image: radial-gradient(var(--accent) 22%, transparent 23%);
-  background-size: 14px 14px;
-  opacity: 0.12;
-  -webkit-mask-image: linear-gradient(135deg, #000 0%, transparent 55%);
-  mask-image: linear-gradient(135deg, #000 0%, transparent 55%);
+.modal-title, .admin-title, .dash-title {
+  font-family: var(--font-display); font-weight: 400; letter-spacing: 1.5px;
 }
-.hero-section { --_ht: 1; }
-.hero-section::after {
+
+/* Marker-drawn underline that draws itself in under the hero accent word */
+.hero-accent::after {
+  height: 12px;
+  transform-origin: left center;
+  transform: skewX(-8deg) scaleX(0);
+  animation: drawUnderline 0.7s cubic-bezier(0.175,0.885,0.32,1.275) 0.9s forwards;
+}
+
+/* ── Halftone (Ben-Day) texture, kept subtle for a minimal feel ── */
+.hero-section { position: relative; }
+.hero-section::after,
+.contact-section::after {
   content: '';
   position: absolute;
   inset: 0;
@@ -1518,24 +1523,45 @@ ul { list-style: none; }
   z-index: 1;
   background-image: radial-gradient(var(--accent) 20%, transparent 21%);
   background-size: 18px 18px;
-  opacity: 0.10;
-  -webkit-mask-image: radial-gradient(circle at 85% 15%, #000 0%, transparent 42%);
-  mask-image: radial-gradient(circle at 85% 15%, #000 0%, transparent 42%);
+  opacity: 0.08;
 }
+.hero-section::after { -webkit-mask-image: radial-gradient(circle at 88% 12%, #000 0%, transparent 40%); mask-image: radial-gradient(circle at 88% 12%, #000 0%, transparent 40%); }
 .contact-section { position: relative; overflow: hidden; }
-.contact-section::after {
+.contact-section::after { -webkit-mask-image: radial-gradient(circle at 8% 92%, #000 0%, transparent 42%); mask-image: radial-gradient(circle at 8% 92%, #000 0%, transparent 42%); }
+.contact-section > .container { position: relative; z-index: 2; }
+
+/* ── Floating comic doodles (decorative, behind content) ── */
+.hero-doodles { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+.doodle {
+  position: absolute;
+  font-family: var(--font-display);
+  line-height: 1;
+  color: var(--accent);
+  opacity: 0.9;
+  will-change: transform;
+}
+.doodle-star  { font-size: 30px; color: var(--accent-dim); -webkit-text-stroke: 1.4px var(--text-primary); }
+.doodle-spark { font-size: 24px; color: var(--accent-pop); }
+.doodle-bolt  { font-size: 26px; color: var(--accent); }
+.d1 { top: 20%;  left: 7%;  animation: floaty 5.5s ease-in-out infinite; }
+.d2 { top: 32%;  right: 9%; animation: bobble 4.2s ease-in-out infinite 0.4s; }
+.d3 { bottom: 26%; left: 12%; animation: sparkle 3.6s ease-in-out infinite 0.2s; }
+.d4 { bottom: 30%; right: 14%; animation: floaty 6.2s ease-in-out infinite 0.6s; }
+@media (max-width: 768px) { .doodle { display: none; } }
+
+/* ── Live status dot: pulsing ping ── */
+.dot-pulse { position: relative; animation: livePulse 1.3s ease-in-out infinite; }
+.dot-pulse::after {
   content: '';
   position: absolute;
   inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  background-image: radial-gradient(var(--accent) 20%, transparent 21%);
-  background-size: 16px 16px;
-  opacity: 0.10;
-  -webkit-mask-image: radial-gradient(circle at 10% 90%, #000 0%, transparent 45%);
-  mask-image: radial-gradient(circle at 10% 90%, #000 0%, transparent 45%);
+  border-radius: 50%;
+  border: 2px solid var(--accent-danger);
+  animation: ping 1.6s cubic-bezier(0,0,0.2,1) infinite;
 }
-.contact-section > .container { position: relative; z-index: 1; }
+
+/* ── Comic display illustration floats gently ── */
+.comic-svg { animation: floaty 6s ease-in-out infinite; transform-origin: center; }
 
 /* ── Starburst "POW" badge ── */
 .pow-badge {
@@ -1543,8 +1569,7 @@ ul { list-style: none; }
   z-index: 3;
   display: grid;
   place-items: center;
-  width: 116px;
-  height: 116px;
+  width: 116px; height: 116px;
   padding: 8px;
   text-align: center;
   color: var(--text-primary);
@@ -1564,42 +1589,91 @@ ul { list-style: none; }
   animation: powPulse 1.8s ease-in-out infinite;
 }
 .pow-badge--hero { top: 100px; right: 6%; }
-@keyframes powPulse {
-  0%, 100% { transform: rotate(-14deg) scale(1); }
-  50%      { transform: rotate(-14deg) scale(1.08); }
-}
 @media (max-width: 768px) { .pow-badge--hero { width: 76px; height: 76px; font-size: 12px; top: 78px; right: 6%; } }
 
-/* ── Punchier comic panels: shared sticker-lift on hover ── */
-.step-card, .philosophy-card, .dept-card, .faq-item, .tracking-panel {
-  transition: transform var(--transition), box-shadow var(--transition), background-color var(--transition);
+/* ── Playful hover: cards tilt like stickers peeling up ── */
+.step-card, .philosophy-card, .dept-card, .faq-item, .lifecycle-item, .tracking-panel {
+  transition: transform var(--transition), box-shadow var(--transition), background-color var(--transition), border-color var(--transition);
 }
 .step-card:hover, .philosophy-card:hover, .dept-card:hover {
-  transform: translate(-3px, -3px);
+  transform: translate(-4px, -5px) rotate(-0.8deg);
   box-shadow: var(--comic-shadow-lg);
 }
+.lifecycle-item:hover { transform: translate(-4px, -4px) rotate(0.4deg); }
+.hero-badge { transition: transform var(--transition), box-shadow var(--transition); }
+.hero-badge:hover { transform: translateY(-3px) rotate(-2deg); }
 
-/* ── Status badges: add a distinct pending + stronger done ── */
+/* Buttons get a springy wobble on hover */
+.btn-primary:hover, .btn-outline:hover { animation: wobble 0.5s ease; }
+.nav-cta:hover { animation: wobble 0.5s ease; }
+
+/* Idle bob on philosophy icons */
+.phil-icon { animation: bobble 3.4s ease-in-out infinite; }
+
+/* ── Status badges + progress refinements ── */
 .status-badge { letter-spacing: 1px; }
 .status-pending { background: var(--canvas-soft); color: var(--text-muted); }
 .step-details h4 { letter-spacing: 0.3px; }
-
-/* ── Progress bar: candy-stripe pop ── */
 .progress-bar-fill {
   background-image: repeating-linear-gradient(
     45deg,
     var(--accent) 0, var(--accent) 10px,
     var(--accent-bright) 10px, var(--accent-bright) 20px
   );
+  animation: stripeSlide 0.9s linear infinite;
+  background-size: 28px 28px;
 }
 
-/* ── Focus visibility: comic outline ring ── */
-a:focus-visible,
-button:focus-visible,
-input:focus-visible,
-select:focus-visible,
-textarea:focus-visible {
+/* ── Comic focus ring ── */
+a:focus-visible, button:focus-visible, input:focus-visible,
+select:focus-visible, textarea:focus-visible {
   outline: 3px solid var(--accent);
   outline-offset: 2px;
   border-radius: 6px;
+}
+
+/* ── Keyframes ── */
+@keyframes drawUnderline { to { transform: skewX(-8deg) scaleX(1); } }
+@keyframes floaty {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50%      { transform: translateY(-12px) rotate(2deg); }
+}
+@keyframes bobble {
+  0%, 100% { transform: translateY(0) rotate(-1deg); }
+  50%      { transform: translateY(-7px) rotate(2deg); }
+}
+@keyframes sparkle {
+  0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.9; }
+  50%      { transform: scale(1.25) rotate(12deg); opacity: 1; }
+}
+@keyframes powPulse {
+  0%, 100% { transform: rotate(-14deg) scale(1); }
+  50%      { transform: rotate(-14deg) scale(1.08); }
+}
+@keyframes wobble {
+  0%, 100% { rotate: 0deg; }
+  30%      { rotate: -2.5deg; }
+  60%      { rotate: 2deg; }
+}
+@keyframes livePulse {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.35); }
+}
+@keyframes ping {
+  0%   { transform: scale(1);   opacity: 0.8; }
+  100% { transform: scale(2.6); opacity: 0; }
+}
+@keyframes stripeSlide {
+  from { background-position: 0 0; }
+  to   { background-position: 28px 0; }
+}
+
+/* ── Reduced-motion: silence all the playful loops ── */
+@media (prefers-reduced-motion: reduce) {
+  .doodle, .comic-svg, .pow-badge, .phil-icon, .dot-pulse,
+  .dot-pulse::after, .progress-bar-fill,
+  .btn-primary:hover, .btn-outline:hover, .nav-cta:hover { animation: none !important; }
+  .hero-accent::after { animation: none; transform: skewX(-8deg) scaleX(1); }
+  .step-card:hover, .philosophy-card:hover, .dept-card:hover,
+  .lifecycle-item:hover, .hero-badge:hover { transform: none; }
 }
