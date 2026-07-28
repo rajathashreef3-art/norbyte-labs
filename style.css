@@ -1484,7 +1484,22 @@ ul { list-style: none; }
   --comic-shadow-lg: 9px 9px 0px var(--text-primary);
   --comic-shadow-sm: 3px 3px 0px var(--text-primary);
 }
-.dark-theme { --accent-pop: #ff7ac0; }
+/* Dark comic palette — MUST come after the :root above, since :root and
+   .dark-theme have equal specificity and later wins. Without this, the
+   light :root tokens above would leak into dark mode (light bg + white text). */
+.dark-theme {
+  --canvas:        #0c0f1d;
+  --canvas-soft:   #12162a;
+  --surface-card:  #181c36;
+  --accent:        #ffd24a; /* neon yellow pop */
+  --accent-bright: #ffe27a;
+  --accent-dim:    #3d7bff; /* electric blue — button/pill fill */
+  --accent-danger: #ff5b9a;
+  --accent-pop:    #ff7ac0;
+  --text-primary:  #ffffff;
+  --text-body:     #e2e8f0;
+  --text-muted:    #94a3b8;
+}
 
 /* ── Comic display headlines ── */
 .hero-section h1,
@@ -1925,3 +1940,18 @@ select:focus-visible, textarea:focus-visible {
 @media (prefers-reduced-motion: reduce) {
   .whatsapp-fab { animation: none; }
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   NAV FIT — 6 links no longer wrap; collapse to hamburger sooner
+   ═══════════════════════════════════════════════════════════════ */
+.nav-links { gap: 18px; }
+.nav-links a { white-space: nowrap; padding: 6px 10px; font-size: 13px; }
+/* Below 1040px the full nav gets tight, so switch to the hamburger. */
+@media (max-width: 1040px) {
+  .nav-links, .nav-cta { display: none; }
+  .hamburger { display: flex; }
+  .nav-actions { margin-left: auto; margin-right: 10px; }
+}
+
+/* Slimmer, tidier hero underline swash. */
+.hero-accent::after { height: 9px; bottom: 5px; }
