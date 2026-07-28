@@ -78,6 +78,43 @@
       .form-grid-2 { grid-template-columns: 1fr; }
     }
 
+    /* ── Phone layout ── */
+    @media (max-width: 640px) {
+      .admin-container { margin: 20px auto; padding: 0 14px; }
+      .admin-header-bar { padding: 16px 18px; }
+      .admin-nav-actions { flex-wrap: wrap; }
+      .admin-panel { padding: 20px; border-radius: 16px; }
+      .login-card { padding: 28px 22px; margin: 48px auto; }
+
+      /* Panel headers stack their heading above the side control */
+      .admin-panel-head { flex-direction: column; align-items: flex-start; gap: 14px; }
+      .admin-panel-head input { max-width: 100% !important; width: 100%; }
+
+      /* Long primary button labels wrap instead of overflowing the pill */
+      .admin-panel .btn-primary { white-space: normal; font-size: 13px; letter-spacing: 0.4px; }
+
+      /* Dynamic builder rows: stack fields instead of a cramped 4-col grid.
+         (Inline grid-template-columns is set in admin.js, so override it.) */
+      .step-builder-row, .file-builder-row {
+        grid-template-columns: 1fr !important;
+        gap: 8px !important;
+        padding: 12px;
+        border: 2px dashed var(--hairline-mid);
+        border-radius: 12px;
+        background: var(--canvas);
+      }
+      .step-builder-row > button,
+      .file-builder-row > button { justify-self: end; width: 40px; }
+
+      /* Tighter cells for the horizontally-scrolling data tables */
+      .custom-table th, .custom-table td { padding: 10px 12px; }
+    }
+
+    /* Very small phones: single-column metrics */
+    @media (max-width: 400px) {
+      .metrics-grid { grid-template-columns: 1fr; }
+    }
+
     /* Bold full-comic display headings */
     .admin-title-text h1,
     .login-card h2,
