@@ -139,58 +139,239 @@ const revealObserver = new IntersectionObserver((entries) => {
 
 revealItems.forEach(el => revealObserver.observe(el));
 
-// ── FORM SUBMISSION ───────────────────────────
-const form = document.getElementById('project-pitch-form');
-const successMsg = document.getElementById('form-success-msg');
-const submitBtn = document.getElementById('submit-pitch-btn');
+// ── DEPARTMENT TOGGLE (ECE, CSE, EEE, OTHER) ────
+const deptRadios = document.querySelectorAll('input[name="department"]');
+const customDeptWrap = document.getElementById('field-dept-other-wrap');
+const customDeptInput = document.getElementById('field-dept-other');
 
-if (form) {
-  form.addEventListener('submit', (e) => {
+if (deptRadios.length > 0) {
+  deptRadios.forEach(radio => {
+    radio.addEventListener('change', () => {
+      if (radio.value === 'Other' && radio.checked) {
+        if (customDeptWrap) customDeptWrap.hidden = false;
+        if (customDeptInput) customDeptInput.required = true;
+      } else {
+        if (customDeptWrap) customDeptWrap.hidden = true;
+        if (customDeptInput) {
+          customDeptInput.required = false;
+          customDeptInput.value = '';
+        }
+      }
+    });
+  });
+}
+
+// ── DYNAMIC TEAM MEMBERS BUILDER (UP TO 5) ──────
+const teamMembersList = document.getElementById('team-members-list');
+const addTeamMemberBtn = document.getElementById('add-team-member-btn');
+const teamLimitMsg = document.getElementById('team-limit-msg');
+
+function updateTeamMemberIndexes() {
+  if (!teamMembersList) return;
+  const rows = teamMembersList.querySelectorAll('.team-member-row');
+  rows.forEach((row, idx) => {
+    const tag = row.querySelector('.member-tag');
+    if (tag) {
+      tag.textContent = idx === 0 ? 'Member 1 (Lead)' : `Member ${idx + 1}`;
+    }
+  });
+
+  const count = rows.length;
+  if (addTeamMemberBtn) {
+    if (count >= 5) {
+      addTeamMemberBtn.style.display = 'none';
+      if (teamLimitMsg) teamLimitMsg.hidden = false;
+    } else {
+      addTeamMemberBtn.style.display = '';
+      if (teamLimitMsg) teamLimitMsg.hidden = true;
+    }
+  }
+}
+
+if (addTeamMemberBtn && teamMembersList) {
+  addTeamMemberBtn.addEventListener('click', () => {
+    const currentRows = teamMembersList.querySelectorAll('.team-member-row');
+    if (currentRows.length >= 5) return;
+
+    const newIndex = currentRows.length + 1;
+    const row = document.createElement('div');
+    row.className = 'team-member-row';
+    row.innerHTML = `
+      <span class="member-tag">Member ${newIndex}</span>
+      <input type="text" class="team-member-input" placeholder="Full Name (Member ${newIndex})" required />
+      <button type="button" class="btn-outline btn-sm btn-danger btn-remove-member" title="Remove member">&times;</button>
+    `;
+
+    row.querySelector('.btn-remove-member').addEventListener('click', () => {
+      row.remove();
+      updateTeamMemberIndexes();
+    });
+
+    teamMembersList.appendChild(row);
+    updateTeamMemberIndexes();
+  });
+}
+
+// ── REGISTRATION FORM SUBMISSION & WHATSAPP MODAL ──
+const regForm = document.getElementById('project-registration-form');
+const enrollModal = document.getElementById('enrollment-modal');
+const closeModalBtn = document.getElementById('close-modal-btn');
+const doneModalBtn = document.getElementById('done-modal-btn');
+const copyRefBtn = document.getElementById('copy-ref-btn');
+const modalWaBtn = document.getElementById('modal-whatsapp-btn');
+
+if (regForm) {
+  regForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    if (!form.checkValidity()) {
-      form.reportValidity();
+    if (!regForm.checkValidity()) {
+      regForm.reportValidity();
       return;
     }
 
-    // Save pitch to API & local storage
-    const newPitch = {
-      id: `PITCH-${Date.now().toString().slice(-4)}`,
-      date: new Date().toISOString().split('T')[0],
-      name: document.getElementById('field-name')?.value || 'Anonymous Client',
-      college: document.getElementById('field-college')?.value || 'Unknown Institution',
-      dept: document.getElementById('field-dept')?.value || 'Engineering',
-      brief: document.getElementById('field-brief')?.value || 'No details provided.'
+    const submitBtn = document.getElementById('submit-enrollment-btn');
+    if (submitBtn) {
+      submitBtn.textContent = 'REGISTERING ENROLLMENT...';
+      submitBtn.disabled = true;
+    }
+
+    // Extract values
+    const topic = document.getElementById('field-topic')?.value || '';
+    const college = document.getElementById('field-college')?.value || '';
+    const district = document.getElementById('field-district')?.value || '';
+    const contact = document.getElementById('field-phone')?.value || '';
+
+    const selectedDeptRadio = document.querySelector('input[name="department"]:checked');
+    let deptValue = selectedDeptRadio ? selectedDeptRadio.value : 'ECE';
+    const deptOtherVal = customDeptInput ? customDeptInput.value : '';
+
+    const memberInputs = Array.from(document.querySelectorAll('.team-member-input'));
+    const teamMembers = memberInputs.map(inEl => inEl.value.trim()).filter(Boolean);
+
+    const payload = {
+      topic,
+      college,
+      district,
+      department: deptValue,
+      departmentOther: deptOtherVal,
+      contact,
+      teamMembers
     };
 
-    fetch(`${API_BASE_URL}/api/pitches`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(newPitch)
-    }).catch(e => console.warn('API pitch post offline, saved locally'));
+    let regResult = null;
 
-    const storedPitches = JSON.parse(localStorage.getItem('norbyte_pitches') || '[]');
-    storedPitches.unshift(newPitch);
-    localStorage.setItem('norbyte_pitches', JSON.stringify(storedPitches));
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/enrollments`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
 
-    submitBtn.textContent = 'SUBMITTING...';
-    submitBtn.disabled = true;
-    submitBtn.style.opacity = '0.7';
+      if (res.ok) {
+        regResult = await res.json();
+      }
+    } catch (err) {
+      console.warn("API enrollments offline, generating local enrollment object:", err);
+    }
 
-    setTimeout(() => {
-      form.reset();
-      submitBtn.textContent = 'SUBMIT PROJECT PITCH ⚡';
+    // Fallback if offline
+    if (!regResult) {
+      const regId = `NBY-REG-${Date.now().toString().slice(-4)}`;
+      const finalDeptStr = deptValue === 'Other' && deptOtherVal ? `Other (${deptOtherVal})` : deptValue;
+      const waMsg = `Hi NorByte Labs! 👋 I registered for Project Assistance.\n\n` +
+        `📌 Ref ID: ${regId}\n` +
+        `💡 Topic: ${topic}\n` +
+        `🎓 College: ${college} (${district})\n` +
+        `⚡ Dept: ${finalDeptStr}\n` +
+        `👥 Team Members: ${teamMembers.join(', ')}\n` +
+        `📞 Contact: ${contact}\n\n` +
+        `Please guide us on starting the project and webinar details!`;
+
+      regResult = {
+        enrollment: {
+          id: regId,
+          topic,
+          college,
+          district,
+          department: finalDeptStr,
+          contact,
+          teamMembers
+        },
+        whatsappUrl: `https://wa.me/916238734386?text=${encodeURIComponent(waMsg)}`
+      };
+    }
+
+    // Save to localStorage
+    const localEnrollments = JSON.parse(localStorage.getItem('norbyte_enrollments') || '[]');
+    localEnrollments.unshift(regResult.enrollment);
+    localStorage.setItem('norbyte_enrollments', JSON.stringify(localEnrollments));
+
+    // Reset button & form
+    if (submitBtn) {
+      submitBtn.textContent = 'REGISTER FOR PROJECT ASSISTANCE ⚡';
       submitBtn.disabled = false;
-      submitBtn.style.opacity = '';
-      successMsg.hidden = false;
-      successMsg.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
 
-      setTimeout(() => {
-        successMsg.hidden = true;
-      }, 7000);
-    }, 1000);
+    regForm.reset();
+    if (customDeptWrap) customDeptWrap.hidden = true;
+    
+    // Reset team members list back to Member 1 Lead
+    if (teamMembersList) {
+      teamMembersList.innerHTML = `
+        <div class="team-member-row">
+          <span class="member-tag">Member 1 (Lead)</span>
+          <input type="text" class="team-member-input" placeholder="Full Name (Lead Student)" required />
+        </div>
+      `;
+      updateTeamMemberIndexes();
+    }
+
+    // Show Post-Registration WhatsApp Modal
+    if (enrollModal && regResult.enrollment) {
+      const en = regResult.enrollment;
+      document.getElementById('modal-ref-id').textContent = en.id;
+      document.getElementById('modal-topic-text').textContent = en.topic;
+      document.getElementById('modal-college-text').textContent = `${en.college} · ${en.district}`;
+      document.getElementById('modal-dept-team-text').textContent = `${en.department} · ${en.teamMembers.length} Member(s)`;
+      
+      if (modalWaBtn) {
+        modalWaBtn.href = regResult.whatsappUrl;
+      }
+
+      enrollModal.hidden = false;
+      enrollModal.setAttribute('aria-hidden', 'false');
+    }
   });
 }
+
+// Modal closing helpers
+function closeEnrollmentModal() {
+  if (enrollModal) {
+    enrollModal.hidden = true;
+    enrollModal.setAttribute('aria-hidden', 'true');
+  }
+}
+
+if (closeModalBtn) closeModalBtn.addEventListener('click', closeEnrollmentModal);
+if (doneModalBtn) doneModalBtn.addEventListener('click', closeEnrollmentModal);
+
+if (enrollModal) {
+  enrollModal.addEventListener('click', (e) => {
+    if (e.target === enrollModal) closeEnrollmentModal();
+  });
+}
+
+if (copyRefBtn) {
+  copyRefBtn.addEventListener('click', () => {
+    const refCode = document.getElementById('modal-ref-id')?.textContent || '';
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(refCode);
+      copyRefBtn.textContent = 'Copied! ✓';
+      setTimeout(() => { copyRefBtn.textContent = 'Copy Ref Code 📋'; }, 2500);
+    }
+  });
+}
+
 
 // ── ACTIVE NAV LINK HIGHLIGHTING ─────────────
 const sections = document.querySelectorAll('section[id], footer[id]');

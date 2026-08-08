@@ -165,6 +165,64 @@ describe('Pitches API', () => {
   });
 });
 
+describe('Enrollments API', () => {
+  it('lists seeded enrollments', async () => {
+    const res = await request(app).get('/api/enrollments');
+    expect(res.status).toBe(200);
+    expect(Array.isArray(res.body)).toBe(true);
+  });
+
+  it('rejects an enrollment payload missing required fields', async () => {
+    const res = await request(app).post('/api/enrollments').send({ topic: 'Solar Grid' });
+    expect(res.status).toBe(400);
+    expect(res.body.error).toMatch(/Missing required fields/);
+  });
+
+  it('creates an enrollment with standard department and WhatsApp link', async () => {
+    const res = await request(app).post('/api/enrollments').send({
+      topic: 'IoT Telemetry Grid',
+      college: 'GEC Thrissur',
+      district: 'Thrissur',
+      department: 'ECE',
+      contact: '+91 9876543210',
+      teamMembers: ['Siddharth', 'Ananya', 'Rahul']
+    });
+
+    expect(res.status).toBe(201);
+    expect(res.body.enrollment.topic).toBe('IoT Telemetry Grid');
+    expect(res.body.enrollment.id).toMatch(/^NBY-REG-/);
+    expect(res.body.whatsappUrl).toContain('wa.me/916238734386');
+  });
+
+  it('handles custom department when "Other" is selected and caps team members at 5', async () => {
+    const res = await request(app).post('/api/enrollments').send({
+      topic: 'Robotic Arm AI',
+      college: 'NIT Calicut',
+      district: 'Kozhikode',
+      department: 'Other',
+      departmentOther: 'Mechatronics Engineering',
+      contact: '+91 9123456789',
+      teamMembers: ['Mem 1', 'Mem 2', 'Mem 3', 'Mem 4', 'Mem 5', 'Mem 6 Extra']
+    });
+
+    expect(res.status).toBe(201);
+    expect(res.body.enrollment.department).toBe('Other (Mechatronics Engineering)');
+    expect(res.body.enrollment.teamMembers).toHaveLength(5);
+  });
+
+  it('deletes an enrollment by id', async () => {
+    const listRes = await request(app).get('/api/enrollments');
+    const targetId = listRes.body[0].id;
+
+    const delRes = await request(app).delete(`/api/enrollments/${targetId}`);
+    expect(delRes.status).toBe(200);
+
+    const newList = await request(app).get('/api/enrollments');
+    expect(newList.body.find(e => e.id === targetId)).toBeUndefined();
+  });
+});
+
+
 describe('GET /api/download/:recordId/:filename', () => {
   it('serves a text attachment with the requested filename', async () => {
     const res = await request(app).get('/api/download/NBY-2026-101/report.pdf');
