@@ -23,6 +23,7 @@
         <span class="nav-logo-text">NORBYTE LABS</span>
       </a>
       <ul class="nav-links" role="list">
+        <li><a href="#webinar-register">🎓 Webinar</a></li>
         <li><a href="#how-we-work">How We Work</a></li>
         <li><a href="#departments">Departments</a></li>
         <li><a href="#lifecycle">A–Z Pipeline</a></li>
@@ -42,6 +43,7 @@
     </div>
     <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
       <ul role="list">
+        <li><a href="#webinar-register">🎓 FREE Webinar — Register Now</a></li>
         <li><a href="#how-we-work">How We Work</a></li>
         <li><a href="#departments">Departments</a></li>
         <li><a href="#lifecycle">A–Z Pipeline</a></li>
@@ -137,6 +139,127 @@
           PAN-INDIA SHIPPING
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ WEBINAR REGISTRATION (ABOVE THE FOLD) ═══════════════════════ -->
+  <section id="webinar-register" class="section webinar-section" aria-labelledby="webinar-main-headline">
+    <div class="container webinar-register-inner">
+
+      <!-- Webinar Announcement Banner -->
+      <div class="webinar-banner-card reveal-item">
+        <div class="webinar-badge">FREE WEBINAR &amp; ASSISTANCE ⚡</div>
+        <div class="webinar-content">
+          <h2 id="webinar-main-headline">🎓 FINAL YEAR PROJECT ASSISTANCE WEBINAR</h2>
+          <p>Confused about topic selection, technology stack, or hardware/software architecture? Join our live interactive session and get expert guidance for FREE!</p>
+          <div class="webinar-meta">
+            <span>📅 <strong>10 August</strong></span>
+            <span>⏰ <strong>9:00 PM</strong></span>
+            <span class="giveaway-pill">🎁 Win a FREE Raspberry Pi!</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-header">
+        <h3 id="contact-headline">REGISTER YOUR PROJECT &amp; JOIN WEBINAR</h3>
+        <p>Fill in your project details below to enroll for NorByte Labs assistance &amp; get instant WhatsApp guidance.</p>
+      </div>
+
+      <form class="contact-form" id="project-registration-form" novalidate aria-label="Project registration and webinar enrollment form">
+        
+        <!-- Topic & College -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="field-topic">Project Topic / Idea <span class="req">*</span></label>
+            <input type="text" id="field-topic" name="topic" placeholder="e.g. IoT Smart Solar Telemetry Grid or Edge AI Vision" required />
+          </div>
+          <div class="form-group">
+            <label for="field-college">College / Institution <span class="req">*</span></label>
+            <input type="text" id="field-college" name="college" placeholder="e.g. Model Engineering College, NIT Calicut..." required />
+          </div>
+        </div>
+
+        <!-- District & Contact Number -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="field-district">District <span class="req">*</span></label>
+            <input type="text" id="field-district" name="district" list="districts-list" placeholder="e.g. Kozhikode, Ernakulam, Thrissur..." required />
+            <datalist id="districts-list">
+              <option value="Kozhikode"></option>
+              <option value="Ernakulam"></option>
+              <option value="Thiruvananthapuram"></option>
+              <option value="Thrissur"></option>
+              <option value="Malappuram"></option>
+              <option value="Kannur"></option>
+              <option value="Palakkad"></option>
+              <option value="Kottayam"></option>
+              <option value="Wayanad"></option>
+              <option value="Kollam"></option>
+              <option value="Idukki"></option>
+              <option value="Alappuzha"></option>
+              <option value="Kasaragod"></option>
+              <option value="Pathanamthitta"></option>
+            </datalist>
+          </div>
+          <div class="form-group">
+            <label for="field-phone">Contact Number (WhatsApp) <span class="req">*</span></label>
+            <input type="tel" id="field-phone" name="contact" placeholder="e.g. +91 98765 43210" pattern="^(\+91[\s\-]?)?[0-9]{10}$" required />
+          </div>
+        </div>
+
+        <!-- Department Selection with Typing Option for Other -->
+        <div class="form-group">
+          <label>Choose Department <span class="req">*</span></label>
+          <div class="dept-selector-group">
+            <label class="dept-radio-card">
+              <input type="radio" name="department" value="ECE" checked />
+              <span class="dept-radio-label">ECE</span>
+            </label>
+            <label class="dept-radio-card">
+              <input type="radio" name="department" value="CSE" />
+              <span class="dept-radio-label">CSE</span>
+            </label>
+            <label class="dept-radio-card">
+              <input type="radio" name="department" value="EEE" />
+              <span class="dept-radio-label">EEE</span>
+            </label>
+            <label class="dept-radio-card">
+              <input type="radio" name="department" value="Other" id="dept-radio-other" />
+              <span class="dept-radio-label">Other</span>
+            </label>
+          </div>
+          
+          <!-- Typing Option for Custom Department (Shown when Other is selected) -->
+          <div id="field-dept-other-wrap" class="custom-dept-wrap" hidden style="margin-top: 12px;">
+            <label for="field-dept-other" style="font-size: 12px; font-weight: 700; color: var(--text-muted);">Specify Your Department:</label>
+            <input type="text" id="field-dept-other" name="departmentOther" placeholder="e.g. Mechanical, Robotics, Mechatronics, Biomedical..." />
+          </div>
+        </div>
+
+        <!-- Dynamic Team Members (Up to 5) -->
+        <div class="form-group team-builder-group">
+          <div class="team-builder-header">
+            <div>
+              <label style="margin-bottom:2px;">Team Members <span class="req">*</span></label>
+              <p class="field-hint">Add your project team members (up to 5 max)</p>
+            </div>
+            <button type="button" id="add-team-member-btn" class="btn-outline btn-sm">+ Add Member</button>
+          </div>
+          
+          <div id="team-members-list" class="team-members-list">
+            <!-- Member 1 (Primary / Lead) -->
+            <div class="team-member-row">
+              <span class="member-tag">Member 1 (Lead)</span>
+              <input type="text" class="team-member-input" placeholder="Full Name (Lead Student)" required />
+            </div>
+          </div>
+          <span id="team-limit-msg" class="team-limit-warning" hidden>⚠️ Maximum 5 team members limit reached.</span>
+        </div>
+
+        <button type="submit" class="btn-primary form-submit" id="submit-enrollment-btn">
+          REGISTER FOR PROJECT ASSISTANCE ⚡
+        </button>
+      </form>
     </div>
   </section>
 
@@ -481,124 +604,13 @@
     </div>
   </section>
 
-  <!-- ═══════════════════════ PROJECT ENROLLMENT & WEBINAR REGISTRATION ═══════════════════════ -->
-  <section id="contact" class="section contact-section" aria-labelledby="contact-headline">
-    <div class="container contact-inner">
-
-      <!-- Webinar Announcement Banner -->
-      <div class="webinar-banner-card reveal-item">
-        <div class="webinar-badge">FREE WEBINAR &amp; ASSISTANCE ⚡</div>
-        <div class="webinar-content">
-          <h3>🎓 FINAL YEAR PROJECT ASSISTANCE WEBINAR</h3>
-          <p>Confused about topic selection, technology stack, or hardware/software architecture? Join our live interactive session!</p>
-          <div class="webinar-meta">
-            <span>📅 <strong>10 August</strong></span>
-            <span>⏰ <strong>9:00 PM</strong></span>
-            <span class="giveaway-pill">🎁 Win a FREE Raspberry Pi!</span>
-          </div>
-        </div>
-      </div>
-
+  <!-- ═══════════════════════ CONTACT (PITCH YOUR IDEA) ═══════════════════════ -->
+  <section id="contact" class="section contact-section" aria-labelledby="pitch-headline">
+    <div class="container contact-inner-simple">
       <div class="contact-header">
-        <h2 id="contact-headline">REGISTER YOUR PROJECT &amp; JOIN WEBINAR</h2>
-        <p>Fill in your project details below to enroll for NorByte Labs assistance &amp; get instant WhatsApp guidance.</p>
+        <h2 id="pitch-headline">HAVE A PROJECT IDEA?</h2>
+        <p>Already registered above? <a href="#webinar-register" style="color:var(--accent); font-weight:800;">Scroll up to join the webinar.</a> Otherwise, <a href="https://wa.me/916238734386" target="_blank" rel="noopener noreferrer" style="color:var(--accent); font-weight:800;">WhatsApp us directly ↗</a></p>
       </div>
-
-      <form class="contact-form" id="project-registration-form" novalidate aria-label="Project registration and webinar enrollment form">
-        
-        <!-- Topic & College -->
-        <div class="form-row">
-          <div class="form-group">
-            <label for="field-topic">Project Topic / Idea <span class="req">*</span></label>
-            <input type="text" id="field-topic" name="topic" placeholder="e.g. IoT Smart Solar Telemetry Grid or Edge AI Vision" required />
-          </div>
-          <div class="form-group">
-            <label for="field-college">College / Institution <span class="req">*</span></label>
-            <input type="text" id="field-college" name="college" placeholder="e.g. Model Engineering College, NIT Calicut..." required />
-          </div>
-        </div>
-
-        <!-- District & Contact Number -->
-        <div class="form-row">
-          <div class="form-group">
-            <label for="field-district">District <span class="req">*</span></label>
-            <input type="text" id="field-district" name="district" list="districts-list" placeholder="e.g. Kozhikode, Ernakulam, Thrissur..." required />
-            <datalist id="districts-list">
-              <option value="Kozhikode"></option>
-              <option value="Ernakulam"></option>
-              <option value="Thiruvananthapuram"></option>
-              <option value="Thrissur"></option>
-              <option value="Malappuram"></option>
-              <option value="Kannur"></option>
-              <option value="Palakkad"></option>
-              <option value="Kottayam"></option>
-              <option value="Wayanad"></option>
-              <option value="Kollam"></option>
-              <option value="Idukki"></option>
-              <option value="Alappuzha"></option>
-              <option value="Kasaragod"></option>
-              <option value="Pathanamthitta"></option>
-            </datalist>
-          </div>
-          <div class="form-group">
-            <label for="field-phone">Contact Number (WhatsApp) <span class="req">*</span></label>
-            <input type="tel" id="field-phone" name="contact" placeholder="e.g. +91 98765 43210" pattern="^(\+91[\s\-]?)?[0-9]{10}$" required />
-          </div>
-        </div>
-
-        <!-- Department Selection with Typing Option for Other -->
-        <div class="form-group">
-          <label>Choose Department <span class="req">*</span></label>
-          <div class="dept-selector-group">
-            <label class="dept-radio-card">
-              <input type="radio" name="department" value="ECE" checked />
-              <span class="dept-radio-label">ECE</span>
-            </label>
-            <label class="dept-radio-card">
-              <input type="radio" name="department" value="CSE" />
-              <span class="dept-radio-label">CSE</span>
-            </label>
-            <label class="dept-radio-card">
-              <input type="radio" name="department" value="EEE" />
-              <span class="dept-radio-label">EEE</span>
-            </label>
-            <label class="dept-radio-card">
-              <input type="radio" name="department" value="Other" id="dept-radio-other" />
-              <span class="dept-radio-label">Other (Type custom)</span>
-            </label>
-          </div>
-          
-          <!-- Typing Option for Custom Department (Shown when Other is selected) -->
-          <div id="field-dept-other-wrap" class="custom-dept-wrap" hidden style="margin-top: 12px;">
-            <label for="field-dept-other" style="font-size: 12px; font-weight: 700; color: var(--text-muted);">Specify Your Department:</label>
-            <input type="text" id="field-dept-other" name="departmentOther" placeholder="e.g. Mechanical, Robotics, Mechatronics, Biomedical..." />
-          </div>
-        </div>
-
-        <!-- Dynamic Team Members (Up to 5) -->
-        <div class="form-group team-builder-group">
-          <div class="team-builder-header">
-            <div>
-              <label style="margin-bottom:2px;">Team Members <span class="req">*</span></label>
-              <p class="field-hint">Add your project team members (Option up to 5 members max)</p>
-            </div>
-            <button type="button" id="add-team-member-btn" class="btn-outline btn-sm">+ Add Member</button>
-          </div>
-          
-          <div id="team-members-list" class="team-members-list">
-            <!-- Member 1 (Primary / Lead) -->
-            <div class="team-member-row">
-              <span class="member-tag">Member 1 (Lead)</span>
-              <input type="text" class="team-member-input" placeholder="Full Name (Lead Student)" required />
-            </div>
-          </div>
-          <span id="team-limit-msg" class="team-limit-warning" hidden>⚠️ Maximum 5 team members limit reached.</span>
-        </div>
-
-        <button type="submit" class="btn-primary form-submit" id="submit-enrollment-btn">
-          REGISTER FOR PROJECT ASSISTANCE ⚡
-        </button>
-      </form>
     </div>
   </section>
 
