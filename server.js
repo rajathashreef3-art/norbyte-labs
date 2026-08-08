@@ -28,56 +28,11 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage, limits: { fileSize: 50 * 1024 * 1024 } });
 
-// In-Memory Data Store (Initialized with dynamic steps and downloadable deliverables)
-let trackingRecords = {
-  "NBY-2026-101": {
-    id: "NBY-2026-101",
-    projectName: "IoT Smart Solar Telemetry Grid",
-    client: "Rahul · Model Engineering College",
-    status: "In Progress",
-    progress: 75,
-    notes: "Firmware stress test completed cleanly. Telemetry MQTT feeds active. Download Viva Report below.",
-    steps: [
-      { title: "1. IEEE Baseline & Architecture", detail: "System schematics & component selection locked.", status: "done" },
-      { title: "2. Hardware Wiring & Firmware Flash", detail: "ESP32 microcontrollers programmed & sensor node wired.", status: "done" },
-      { title: "3. Dashboard Telemetry & MQTT Setup", detail: "Real-time chart streaming connected to cloud broker.", status: "active" },
-      { title: "4. Final Viva Binder & Shipping", detail: "Project report submission package generated.", status: "pending" }
-    ],
-    deliverables: [
-      { name: "NorByte_Solar_Telemetry_Viva_Report_NBY-2026-101.pdf", size: "2.4 MB", type: "document" },
-      { name: "NorByte_ESP32_Firmware_SourceCode_NBY-2026-101.zip", size: "1.8 MB", type: "code" },
-      { name: "NorByte_Circuit_Schematics_NBY-2026-101.png", size: "850 KB", type: "image" }
-    ]
-  },
-  "NBY-2026-102": {
-    id: "NBY-2026-102",
-    projectName: "Edge AI Defect Inspector Node",
-    client: "Anjali · NIT Calicut",
-    status: "Hardware Assembly",
-    progress: 40,
-    notes: "Raspberry Pi camera interface mounted & OpenCV real-time inference script deployed.",
-    steps: [
-      { title: "1. Problem Statement & Dataset Prep", detail: "Defect dataset annotated for edge model.", status: "done" },
-      { title: "2. Hardware Mount & Enclosure", detail: "Camera jig 3D printed & mounted.", status: "active" },
-      { title: "3. OpenCV Real-time Inference", detail: "Deploying TensorRT lightweight model.", status: "pending" },
-      { title: "4. Final Report & Code Package", detail: "Documentation and viva presentation.", status: "pending" }
-    ],
-    deliverables: [
-      { name: "NorByte_Edge_AI_Defect_System_Brief_NBY-2026-102.pdf", size: "1.2 MB", type: "document" }
-    ]
-  }
-};
+// In-Memory Data Store — starts empty, real data added via admin panel or API
+let trackingRecords = {};
 
-let pitches = [
-  {
-    id: "PITCH-1001",
-    date: new Date().toISOString().split('T')[0],
-    name: "Siddharth Menon",
-    college: "GEC Thrissur",
-    dept: "ECE",
-    brief: "Need a LoRa-based environmental water quality telemetry node with custom dashboard for major project submission."
-  }
-];
+let pitches = [];
+
 
 // Explicitly serve Admin Console on root GET / for backend web service
 app.get('/', (req, res) => {

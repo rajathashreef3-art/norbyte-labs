@@ -397,31 +397,9 @@ sections.forEach(s => sectionObserver.observe(s));
 // LIVE PROJECT TRACKING & ADMIN SYSTEM
 // ═══════════════════════════════════════════════
 
-const DEFAULT_TRACKING_DATA = {
-  "NBY-2026-101": {
-    id: "NBY-2026-101",
-    projectName: "IoT Smart Solar Telemetry Grid",
-    client: "Rahul · Model Engineering College",
-    status: "In Progress",
-    progress: 75,
-    notes: "Firmware stress test completed cleanly. Telemetry MQTT feeds active. Preparing final presentation binder."
-  },
-  "NBY-2026-102": {
-    id: "NBY-2026-102",
-    projectName: "Edge AI Defect Inspector Node",
-    client: "Anjali · NIT Calicut",
-    status: "Hardware Assembly",
-    progress: 40,
-    notes: "Raspberry Pi camera interface mounted & OpenCV real-time inference script deployed."
-  }
-};
-
 function getTrackingRecords() {
   const stored = localStorage.getItem('norbyte_tracking');
-  if (!stored) {
-    localStorage.setItem('norbyte_tracking', JSON.stringify(DEFAULT_TRACKING_DATA));
-    return DEFAULT_TRACKING_DATA;
-  }
+  if (!stored) return {};
   return JSON.parse(stored);
 }
 
@@ -431,17 +409,6 @@ function saveTrackingRecord(record) {
   localStorage.setItem('norbyte_tracking', JSON.stringify(records));
 }
 
-// Global Demo Chip Helper
-window.fillTrackingId = function(id) {
-  const input = document.getElementById('tracking-id-input');
-  if (input) {
-    input.value = id;
-    performTrackingLookup(id);
-  }
-};
-
-document.getElementById('chip-1')?.addEventListener('click', () => fillTrackingId('NBY-2026-101'));
-document.getElementById('chip-2')?.addEventListener('click', () => fillTrackingId('NBY-2026-102'));
 
 const trackingForm = document.getElementById('tracking-search-form');
 const trackingIdInput = document.getElementById('tracking-id-input');
